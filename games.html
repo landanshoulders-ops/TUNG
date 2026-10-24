@@ -539,3 +539,29 @@ window.addEventListener("keydown", function(event) {
     <option value="mcgraw">McGraw Hill Log In</option>
     <option value="flocabulary">Flocabulary - Educational Hip-Hop</option>
 </select>
+<!-- DYNAMIC MUSIC SERVERS CARD -->
+<div class="app-card category-item music" style="display: none;">
+    <h3>Multi-Server Audio Console</h3>
+    <p style="color: #7c7c8a; font-size: 13px; margin-bottom: 15px;">
+        Select an open-source audio streaming server, pick a genre or track identifier, and click launch.
+    </p>
+
+    <!-- Controls Selection Row -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+        <select id="audioServerSelect" class="cloak-select" style="flex: 1;" onchange="updateMusicPlaceholders()">
+            <option value="radio_garden">Server 1 (Radio Garden Live Network)</option>
+            <option value="internet_archive">Server 2 (Internet Archive Music Nodes)</option>
+            <option value="hearthis_at">Server 3 (HearThis.at Open Engine)</option>
+        </select>
+        
+        <!-- Input field for targeted tracks or station IDs -->
+        <input type="text" id="audioIdInput" placeholder="Station City Name (e.g., huntsville)" class="cloak-select" style="flex: 1.2; min-width: 180px;">
+        
+        <button class="nav-btn" style="background-color: #04d361; color: #0f0f12; padding: 8px 16px; margin: 0;" onclick="loadMusicServer()">Connect Server</button>
+    </div>
+
+    <!-- Audio Player Iframe Canvas Frame -->
+    <div class="frame-wrapper" style="height: 360px;">
+        <iframe id="audioServerIframe" src="about:blank" allow="autoplay"></iframe>
+    </div>
+</div>
