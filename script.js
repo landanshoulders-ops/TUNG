@@ -196,3 +196,21 @@ function loadMusicServer() {
     // Inject the active source URL directly into the player frame
     playerFrame.src = audioSourceUrl;
 }
+function showCategory(category, buttonElement) {
+    var buttons = document.getElementsByClassName('nav-btn');
+    for (var i = 0; i < buttons.length; i++) { buttons[i].classList.remove('active'); }
+    buttonElement.classList.add('active');
+
+    var items = document.getElementsByClassName('category-item');
+    for (var j = 0; j < items.length; j++) { items[j].style.display = 'none'; }
+
+    // ADDED 'radio' TO THE ALLOWED GRID VIEW LIST BELOW
+    if (category === 'games' || category === 'media' || category === 'music' || category === 'radio') {
+        document.getElementById('mainHubGrid').style.display = 'grid';
+        var selectedItems = document.getElementsByClassName(category);
+        for (var k = 0; k < selectedItems.length; k++) { selectedItems[k].style.display = 'block'; }
+    } else if (category === 'settings') {
+        document.getElementById('mainHubGrid').style.display = 'none';
+        document.getElementById('settingsPanel').style.display = 'block';
+    }
+}
