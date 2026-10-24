@@ -82,3 +82,55 @@ function showCategory(category, buttonElement) {
     }
 }
 
+// Toggles Season/Episode input boxes if TV Series is selected
+function toggleMediaInputs() {
+    var type = document.getElementById('mediaType').value;
+    var displayStyle = (type === 'tv') ? 'inline-block' : 'none';
+    document.getElementById('mediaSeason').style.display = displayStyle;
+    document.getElementById('mediaEpisode').style.display = displayStyle;
+}
+
+// Logic to compile the user parameters and stream from selected public servers
+function loadStreamPlayer() {
+    var type = document.getElementById('mediaType').value;
+    var id = document.getElementById('mediaId').value.trim();
+    var server = document.getElementById('streamServer').value;
+    var frame = document.getElementById('cinemaIframe');
+
+    if (!id) {
+        alert("Please enter a valid IMDb ID first!");
+        return;
+    }
+
+    var season = document.getElementById('mediaSeason').value;
+    var episode = document.getElementById('mediaEpisode').value;
+    var finalSrc = "";
+
+    // Server API link selector
+    if (server === 'vidsrc_xyz') {
+        finalSrc = (type === 'movie') 
+            ? "https://vidsrc.xyz" + id 
+            : "https://vidsrc.xyz" + id + "&season=" + season + "&episode=" + episode;
+    } else if (server === 'vidsrc_me') {
+        finalSrc = (type === 'movie') 
+            ? "https://vidsrc.me" + id 
+            : "https://vidsrc.me" + id + "/" + season + "/" + episode;
+    } else if (server === 'embed_su') {
+        finalSrc = (type === 'movie') 
+            ? "https://embed.su" + id 
+            : "https://embed.su" + id + "/" + season + "/" + episode;
+    }
+
+    // Load the constructed URL into the player card
+    frame.src = finalSrc;
+}
+
+// Loads selected Live TV Stream sources
+function loadLiveTvPlayer(url) {
+    var frame = document.getElementById('liveTvIframe');
+    if(url) {
+        frame.src = url;
+    } else {
+        frame.src = "about:blank";
+    }
+}
