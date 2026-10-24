@@ -128,7 +128,27 @@ function loadStreamPlayer() {
 // Loads selected Live TV Stream sources
 function loadLiveTvPlayer(url) {
     var frame = document.getElementById('liveTvIframe');
-    if(url) {
+    if(url) { function showCategory(category, buttonElement) {
+    // 1. Reset button glow states
+    var buttons = document.getElementsByClassName('nav-btn');
+    for (var i = 0; i < buttons.length; i++) { buttons[i].classList.remove('active'); }
+    buttonElement.classList.add('active');
+
+    // 2. Hide all items inside the layout
+    var items = document.getElementsByClassName('category-item');
+    for (var j = 0; j < items.length; j++) { items[j].style.display = 'none'; }
+
+    // 3. Toggle view matrices based on selection
+    if (category === 'games' || category === 'media' || category === 'music') {
+        document.getElementById('mainHubGrid').style.display = 'grid';
+        var selectedItems = document.getElementsByClassName(category);
+        for (var k = 0; k < selectedItems.length; k++) { selectedItems[k].style.display = 'block'; }
+    } else if (category === 'settings') {
+        document.getElementById('mainHubGrid').style.display = 'none';
+        document.getElementById('settingsPanel').style.display = 'block';
+    }
+}
+
         frame.src = url;
     } else {
         frame.src = "about:blank";
