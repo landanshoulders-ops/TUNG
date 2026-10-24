@@ -454,7 +454,62 @@ window.addEventListener("keydown", function(event) {
     <option value="classroom">Classes</option>
     <option value="zoom">Zoom Video Communications</option>
     <option value="clever">Clever | Portal</option>
+    <!-- ADVANCED MEDIA STREAMS CARD -->
+<div class="app-card category-item media" style="display: none;">
+    <h3>Multi-Server Cinema Player (Movies & TV)</h3>
+    <p style="color: #7c7c8a; font-size: 13px; margin-bottom: 15px;">
+        Select your media type, input the IMDb ID, and switch servers if a link is slow. Captions are available inside the player menu.
+    </p>
+
+    <!-- Controls Row -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+        <select id="mediaType" class="cloak-select" onchange="toggleMediaInputs()">
+            <option value="movie">Movie</option>
+            <option value="tv">TV Series</option>
+        </select>
+        
+        <input type="text" id="mediaId" placeholder="IMDb ID (e.g., tt1630029)" class="cloak-select" style="flex: 1; min-width: 180px;">
+        
+        <!-- TV Show specifics (hidden by default) -->
+        <input type="number" id="mediaSeason" placeholder="S" class="cloak-select" style="width: 60px; display: none;" value="1">
+        <input type="number" id="mediaEpisode" placeholder="E" class="cloak-select" style="width: 60px; display: none;" value="1">
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+        <select id="streamServer" class="cloak-select" style="flex: 1;">
+            <option value="vidsrc_xyz">Server 1 (VidSrc XYZ - High Speed)</option>
+            <option value="vidsrc_me">Server 2 (VidSrc Me - Best Stability)</option>
+            <option value="embed_su">Server 3 (Embed Su - Multi-Language)</option>
+        </select>
+        <button class="nav-btn" style="background-color: #04d361; color: #0f0f12; padding: 8px 16px; margin: 0;" onclick="loadStreamPlayer()">Load Video</button>
+    </div>
+
+    <!-- The actual video window -->
+    <div class="frame-wrapper" style="height: 380px;">
+        <iframe id="cinemaIframe" src="about:blank" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+</div>
+
+<!-- LIVE TELEVISION CARD -->
+<div class="app-card category-item media" style="display: none;">
+    <h3>Live TV IPTV Stream Module</h3>
+    <p style="color: #7c7c8a; font-size: 13px; margin-bottom: 15px;">Broadcasts live over-the-air digital channels directly inside your canvas proxy framework.</p>
     
+    <div style="margin-bottom: 15px;">
+        <select id="liveTvChannel" class="cloak-select" style="width: 100%;" onchange="loadLiveTvPlayer(this.value)">
+            <option value="">-- Select a Live Broadcast --</option>
+            <option value="https://lightningstream.club">ABC News Live</option>
+            <option value="https://lightningstream.club">CBS News Live</option>
+            <option value="https://lightningstream.club">NBC News Now</option>
+            <option value="https://vaughn.live">24/7 Global News Matrix</option>
+        </select>
+    </div>
+
+    <div class="frame-wrapper" style="height: 320px;">
+        <iframe id="liveTvIframe" src="about:blank" allowfullscreen></iframe>
+    </div>
+</div>
+
     <!-- School Assignment Portals -->
     <option value="lexia">Lexia Core5 Reading</option>
     <option value="mcgraw">McGraw Hill Log In</option>
