@@ -154,3 +154,45 @@ function loadLiveTvPlayer(url) {
         frame.src = "about:blank";
     }
 }
+// Updates the input box placeholder text dynamically based on the selected server rules
+function updateMusicPlaceholders() {
+    var server = document.getElementById('audioServerSelect').value;
+    var inputField = document.getElementById('audioIdInput');
+    
+    if (server === 'radio_garden') {
+        inputField.placeholder = "Station City Name (e.g., huntsville)";
+    } else if (server === 'internet_archive') {
+        inputField.placeholder = "Archive Collection ID (e.g., 78rpm)";
+    } else if (server === 'hearthis_at') {
+        inputField.placeholder = "Genre Name (e.g., lofi, ambient)";
+    }
+}
+
+// Compiles the selections and hooks up the correct cloud server audio streams
+function loadMusicServer() {
+    var server = document.getElementById('audioServerSelect').value;
+    var parameter = document.getElementById('audioIdInput').value.trim().toLowerCase();
+    var playerFrame = document.getElementById('audioServerIframe');
+
+    if (!parameter) {
+        alert("Please enter a target city, genre, or archive ID tag first!");
+        return;
+    }
+
+    var audioSourceUrl = "";
+
+    // Open-source music routing logic based on selected cloud stream providers
+    if (server === 'radio_garden') {
+        // Directs to the interactive global radio map filtered by search query
+        audioSourceUrl = "https://radio.garden" + encodeURIComponent(parameter);
+    } else if (server === 'internet_archive') {
+        // Loads historical, public domain open tracks directly from the web archive embeds
+        audioSourceUrl = "https://archive.org" + encodeURIComponent(parameter) + "&playlist=1";
+    } else if (server === 'hearthis_at') {
+        // Pulls a stream index player page from the open music distribution platform
+        audioSourceUrl = "https://hearthis.at" + encodeURIComponent(parameter) + "/";
+    }
+
+    // Inject the active source URL directly into the player frame
+    playerFrame.src = audioSourceUrl;
+}
