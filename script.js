@@ -583,3 +583,16 @@ const presets = {
         icon: "https://wikipedia.org" 
     }
 };
+// Updated Live Database Registry Array
+const gamesDatabase = [
+    { name: "Retro Bowl", url: "https://googleusercontent.com" },
+    { name: "1v1.LOL", url: "https://github.io" },
+    { name: "Slope", url: "https://github.io" },
+    { name: "Drift Hunters", url: "https://github.io" },
+    { name: "Cookie Clicker", url: "https://github.io" },
+    { name: "Smash Karts", url: "https://github.io" },
+    { name: "Subway Surfers", url: "https://github.io" },
+    { name: "BitLife", url: "https://github.io" },
+    { name: "Tunnel Rush", url: "https://github.io" },
+    { name: "Geometry Dash", url: "https://github.io" }
+];
