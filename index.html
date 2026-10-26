@@ -1,1 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive - My Drive</title>
+    <!-- Official Google Drive Favicon to disguise the browser tab icon -->
+    <link rel="icon" type="image/x-icon" href="https://gstatic.com">
+    
+    <style>
+        body {
+            background-color: #0d0d12;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 5px; font-weight: 700; text-align: center; }
+        h1 span { color: #e50914; }
+        .sub { color: #8c8c8c; margin-bottom: 40px; font-size: 15px; text-align: center; }
+        
+        /* Grid container for alignment */
+        .portal-grid { 
+            display: flex; 
+            gap: 20px; 
+            max-width: 700px; 
+            width: 100%; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+        }
+        
+        /* Clean, styled buttons linking to your sub-files */
+        .portal-card {
+            background-color: #16161d;
+            border: 2px solid #2a2a35;
+            border-radius: 12px;
+            padding: 35px 25px;
+            flex: 1;
+            min-width: 240px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        .portal-card:hover { transform: translateY(-4px); }
+        .card-movies:hover { border-color: #e50914; }
+        .card-games:hover { border-color: #00bcd4; }
+        
+        .icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+        .card-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 8px; display: block; }
+        .card-desc { color: #aaabb2; font-size: 13px; display: block; line-height: 1.4; }
+    </style>
+</head>
+<body>
 
+    <h1>Unblocked Portal <span>Dashboard</span></h1>
+    <div class="sub">Select an isolated runway path to launch your server scripts.</div>
+
+    <div class="portal-grid">
+        <!-- Direct Link Path to movies.html -->
+        <a href="movies.html" class="portal-card card-movies">
+            <span class="icon">🎬</span>
+            <span class="card-title">Cinema Hub</span>
+            <span class="card-desc">Query live public embed network database nodes for films and series.</span>
+        </a>
+
+        <!-- Direct Link Path to games.html -->
+        <a href="games.html" class="portal-card card-games">
+            <span class="icon">🎮</span>
+            <span class="card-title">Arcade Hub</span>
+            <span class="card-desc">Load zero-storage footprint unblocked CDN HTML game files.</span>
+        </a>
+    </div>
+
+    <script>
+        // Universal Emergency Key Bind
+        // Pressing Escape immediately opens Google Classroom
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                window.location.replace('https://google.com');
+            }
+        });
+    </script>
+</body>
+</html>
+
+<!-- The Interactive Cloak Toggle Button -->
+<button id="cloakBtn" onclick="toggleCloak()" style="background-color: #1f1f2e; border: 2px solid #2a2a3d; color: white; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 20px; margin-bottom: 25px; transition: 0.2s;">
+    Enable Tab Disguise 🕵️‍♂️
+</button>
