@@ -96,4 +96,114 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Console</title>
+    <style>
+        :root { --primary: #9c27b0; --bg-dark: #08080a; --card-bg: #14141d; --border: #232330; --text: #ffffff; --text-sub: #7a7a8c; }
+        body { background-color: var(--bg-dark); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; background-size: cover; background-position: center; background-attachment: fixed; }
+        .header-bar { width: 100%; max-width: 1000px; padding: 20px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; border-bottom: 1px solid var(--border); }
+        .brand-title { font-size: 1.6rem; font-weight: 800; margin: 0; color: var(--text); }
+        .brand-title span { color: var(--primary); }
+        .nav-back { color: #00bcd4; font-weight: bold; text-decoration: none; font-size: 14px; transition: all 0.3s; }
+        .nav-back:hover { text-shadow: 0 0 10px rgba(0, 188, 212, 0.4); color: #00e5ff; }
+        .main-container { width: 100%; max-width: 1000px; padding: 30px 20px; box-sizing: border-box; display: grid; grid-template-columns: 1fr; gap: 25px; }
+        .settings-card { background-color: rgba(20, 20, 29, 0.9); border: 1px solid var(--border); border-radius: 12px; padding: 25px; box-sizing: border-box; }
+        .setting-group { margin-bottom: 15px; }
+        .setting-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-sub); font-size: 14px; }
+        select, input, button { width: 100%; padding: 12px; background-color: var(--bg-dark); border: 1px solid var(--border); color: white; border-radius: 6px; outline: none; box-sizing: border-box; font-size: 14px; }
+        
+        button.save-btn { 
+            background-color: var(--primary); 
+            border: none; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        button.save-btn:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(156, 39, 176, 0.4); background-color: #ba2cc3; }
+        
+        .terms-box { border: 1px solid var(--border); border-radius: 6px; background-color: var(--bg-dark); overflow: hidden; margin-bottom: 10px; font-size: 14px; padding: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <h2 class="brand-title">Control<span>Console</span></h2>
+        <a href="index.html" class="nav-back">← Back to Dashboard</a>
+    </div>
+
+    <div class="main-container">
+        <div class="settings-card">
+            <!-- PERSISTENT TAB CLOAK SELECTOR -->
+            <div class="setting-group">
+                <label for="cloakSelect">Global Default Tab Cloak Mask</label>
+                <select id="cloakSelect" onchange="applyTabCloak()">
+                    <option value="default">None (Normal Tab)</option>
+                    <option value="google">Google Search</option>
+                    <option value="drive">Google Drive</option>
+                    <option value="classroom">Google Classroom</option>
+                    <option value="clever">Clever Portal</option>
+                    <option value="mcgraw">McGraw Hill</option>
+                    <option value="flocab">Flocabulary</option>
+                    <option value="wiki">Wikipedia</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label for="panicUrl">Emergency Panic Redirect Target</label>
+                <input type="text" id="panicUrl" value="https://google.com">
+            </div>
+            <div class="setting-group">
+                <label for="customBgUrl">Live Canvas Desktop Wallpaper URL</label>
+                <input type="text" id="customBgUrl" placeholder="Paste image link address...">
+            </div>
+            <button class="save-btn" onclick="saveConsoleConfigurations()">Save Operational Variables 💾</button>
+        </div>
+
+        <div class="settings-card">
+            <div class="terms-box"><b>Terms of Service:</b> This unblocked portal is a client-side layout test sandbox running on public distributed CDNs.</div>
+        </div>
+    </div>
+
+    <script>
+        function saveConsoleConfigurations() {
+            localStorage.setItem('hubPanicUrl', document.getElementById('panicUrl').value.trim());
+            localStorage.setItem('hubWallpaper', document.getElementById('customBgUrl').value.trim());
+            if (localStorage.getItem('hubWallpaper')) { document.body.style.backgroundImage = `url('${localStorage.getItem('hubWallpaper')}')`; } else { document.body.style.backgroundImage = 'none'; }
+            alert("Variables updated successfully!");
+        }
+
+        function applyTabCloak() {
+            const choice = document.getElementById('cloakSelect').value;
+            const presets = {
+                default: { title: "Control Console", icon: "" },
+                google: { title: "Google", icon: "https://google.com" },
+                drive: { title: "Google Drive - My Drive", icon: "https://gstatic.com" },
+                classroom: { title: "Classes", icon: "https://gstatic.com" },
+                clever: { title: "Clever | Portal", icon: "https://clever.com" },
+                mcgraw: { title: "McGraw Hill Log In", icon: "https://mheducation.com" },
+                flocab: { title: "Flocabulary - Educational Hip-Hop", icon: "https://flocabulary.com" },
+                wiki: { title: "Wikipedia, the free encyclopedia", icon: "https://wikipedia.org" }
+            };
+            const target = presets[choice] || presets['default'];
+            document.title = target.title; localStorage.setItem('savedCloakValue', choice);
+            let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            link.type = 'image/x-icon'; link.rel = 'shortcut icon'; link.href = target.icon; document.head.appendChild(link);
+        }
+
+        window.onload = function() {
+            if (localStorage.getItem('hubWallpaper')) { document.body.style.backgroundImage = `url('${localStorage.getItem('hubWallpaper')}')`; document.getElementById('customBgUrl').value = localStorage.getItem('hubWallpaper'); }
+            if (localStorage.getItem('hubPanicUrl')) document.getElementById('panicUrl').value = localStorage.getItem('hubPanicUrl');
+            if (localStorage.getItem('savedCloakValue')) { document.getElementById('cloakSelect').value = localStorage.getItem('savedCloakValue'); applyTabCloak(); }
+        }
+
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { window.location.replace(localStorage.getItem('hubPanicUrl') || 'https://google.com'); }
+        });
+    </script>
+</body>
+</html>
 
