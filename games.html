@@ -106,4 +106,98 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcade Terminal</title>
+    <style>
+        body { background-color: #0b0b0e; color: #ffffff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; background-size: cover; background-position: center; background-attachment: fixed; }
+        h1 { color: #00bcd4; margin: 10px 0 5px 0; font-size: 2.2rem; }
+        .sub { color: #8c8c8c; margin-bottom: 20px; font-size: 13px; }
+        .nav-link { color: #e50914; font-weight: bold; text-decoration: none; margin-bottom: 15px; font-size: 15px; }
+        .cloak-box { background: #16161d; border: 1px solid #232330; padding: 15px; border-radius: 12px; width: 100%; max-width: 1060px; display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px; }
+        select, button { padding: 10px 15px; background: #0d0d12; border: 1px solid #232330; color: white; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; width: 100%; max-width: 1100px; max-height: 200px; overflow-y: auto; padding: 15px; background: #121218; border-radius: 10px; border: 1px solid #1f1f27; box-sizing: border-box; }
+        .game-card { background-color: #1c1c24; border: 1px solid #2d2d3d; padding: 15px 10px; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; text-align: center; }
+        .game-card.active { background-color: #00bcd4; color: black; }
+        .game-container { width: 100%; max-width: 1100px; margin-top: 25px; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid #1f1f27; }
+        iframe { width: 100%; height: 500px; border: none; display: block; }
+    </style>
+</head>
+<body>
+
+    <h1>Massive Arcade System</h1>
+    <a href="index.html" class="nav-link">← Back to Dashboard Portal</a>
+
+    <!-- CLOAK SYSTEM COMPONENT -->
+    <div class="cloak-box">
+        <label for="cloakSelect" style="color: #8c8c8c; font-size: 14px;">Tab Disguise Mask:</label>
+        <select id="cloakSelect" onchange="applyTabCloak()">
+            <option value="default">None (Normal Tab)</option>
+            <option value="google">Google Search</option>
+            <option value="drive">Google Drive</option>
+            <option value="classroom">Google Classroom</option>
+            <option value="clever">Clever Portal</option>
+            <option value="mcgraw">McGraw Hill</option>
+            <option value="flocab">Flocabulary</option>
+            <option value="wiki">Wikipedia</option>
+        </select>
+    </div>
+
+    <div class="game-grid" id="gameGrid"></div>
+    <div class="game-container"><iframe id="gameViewport" src="about:blank"></iframe></div>
+
+    <script>
+        const gamesDatabase = [
+            { name: "Retro Bowl", url: "https://googleusercontent.com" },
+            { name: "1v1.LOL", url: "https://github.io" },
+            { name: "Slope", url: "https://github.io" },
+            { name: "Drift Hunters", url: "https://github.io" }
+        ];
+
+        function buildArcadeGrid() {
+            const grid = document.getElementById('gameGrid');
+            gamesDatabase.forEach(game => {
+                const element = document.createElement('div'); element.className = 'game-card'; element.textContent = game.name;
+                element.setAttribute('onclick', `launchGame('${game.url}', this)`); grid.appendChild(element);
+            });
+        }
+
+        function launchGame(url, cardElement) {
+            document.getElementById('gameViewport').src = url;
+            document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active')); cardElement.classList.add('active');
+        }
+
+        function applyTabCloak() {
+            const choice = document.getElementById('cloakSelect').value;
+            const presets = {
+                default: { title: "Arcade Terminal", icon: "" },
+                google: { title: "Google", icon: "https://google.com" },
+                drive: { title: "Google Drive - My Drive", icon: "https://gstatic.com" },
+                classroom: { title: "Classes", icon: "https://gstatic.com" },
+                clever: { title: "Clever | Portal", icon: "https://clever.com" },
+                mcgraw: { title: "McGraw Hill Log In", icon: "https://mheducation.com" },
+                flocab: { title: "Flocabulary - Educational Hip-Hop", icon: "https://flocabulary.com" },
+                wiki: { title: "Wikipedia, the free encyclopedia", icon: "https://wikipedia.org" }
+            };
+            const target = presets[choice] || presets['default'];
+            document.title = target.title; localStorage.setItem('savedCloakValue', choice);
+            let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            link.type = 'image/x-icon'; link.rel = 'shortcut icon'; link.href = target.icon; document.head.appendChild(link);
+        }
+
+        window.onload = function() {
+            if (localStorage.getItem('hubWallpaper')) document.body.style.backgroundImage = `url('${localStorage.getItem('hubWallpaper')}')`;
+            if (localStorage.getItem('savedCloakValue')) { document.getElementById('cloakSelect').value = localStorage.getItem('savedCloakValue'); applyTabCloak(); }
+            buildArcadeGrid();
+        }
+
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { window.location.replace(localStorage.getItem('hubPanicUrl') || 'https://google.com'); }
+        });
+    </script>
+</body>
+</html>
 
