@@ -657,3 +657,45 @@
     </div>
 
     <div class="theater-viewport-modal" id="videoOverlay">
+        .scroller-viewport { display: flex; gap: 12px; overflow-x: auto; padding: 10px 0; width: 100%; box-sizing: border-box; }
+        .scroller-viewport::-webkit-scrollbar { display: none; }
+
+        /* ======================================================== */
+        /*  PASTE YOUR STEP 2 RANK CHART STYLES RIGHT HERE BELOW:   */
+        /* ======================================================== */
+        .rank-scroller-layout {
+            padding-left: 45px !important;
+            gap: 45px !important;
+        }
+        .rank-card-frame {
+            position: relative;
+            min-width: 160px;
+            max-width: 160px;
+            aspect-ratio: 2 / 3;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .rank-card-frame::before {
+            content: attr(data-rank);
+            position: absolute;
+            left: -40px;
+            bottom: -15px;
+            font-size: 9rem;
+            font-weight: 900;
+            line-height: 1;
+            color: #141414;
+            text-shadow: -2px -2px 0 #555, 2px -2px 0 #555, -2px 2px 0 #555, 2px 2px 0 #555;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        .rank-card-frame:hover::before {
+            text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
+        }
+        .rank-card-frame:hover { transform: scale(1.08); z-index: 5; }
+        .rank-img-layer { width: 100%; height: 100%; background-size: cover; background-position: center; border-radius: 4px; position: relative; z-index: 2; border: 1px solid rgba(255,255,255,0.05); }
+        /* ======================================================== */
+
+        .poster-card-frame {
+            position: relative;
+            min-width: 180px;
