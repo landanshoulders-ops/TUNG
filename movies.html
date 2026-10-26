@@ -1084,3 +1084,238 @@
 
         function openTheaterOverlay(item) {
             cachedActiveMediaId = item.id;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Player Hub</title>
+    <style>
+        :root {
+            --primary: #e50914;
+            --bg-dark: #050507;
+            --card-bg: #101015;
+            --border: #1c1c24;
+            --text: #ffffff;
+            --text-sub: #6c6c7d;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        
+        /* Top Navigation Header Bar */
+        .header-bar { 
+            width: 100%; 
+            max-width: 1200px; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border); 
+            box-sizing: border-box; 
+            background-color: rgba(5, 5, 7, 0.95);
+            z-index: 10;
+        }
+        .brand-title { font-size: 1.6rem; font-weight: 800; margin: 0; }
+        .brand-title span { color: var(--primary); }
+        .nav-back { color: #00bcd4; font-weight: bold; text-decoration: none; font-size: 14px; transition: 0.2s; }
+        .nav-back:hover { text-shadow: 0 0 10px rgba(0, 188, 212, 0.4); }
+
+        /* Integrated Cloak Control Area */
+        .cloak-container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 15px 20px 0 20px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .cloak-label { font-size: 13px; color: var(--text-sub); font-weight: 600; }
+        .cloak-select {
+            padding: 8px 12px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            outline: none;
+            font-size: 13px;
+        }
+
+        /* Netflix-Style Media Rows Container */
+        .catalog-container { 
+            width: 100%; 
+            max-width: 1200px; 
+            margin-top: 15px; 
+            padding: 0 20px 40px 20px;
+            box-sizing: border-box;
+            display: flex; 
+            flex-direction: column; 
+            gap: 30px; 
+        }
+        .category-row { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        .row-header { display: flex; align-items: center; gap: 8px; }
+        .row-title { font-size: 1.3rem; font-weight: 700; margin: 0; color: #fff; letter-spacing: -0.3px; }
+        .heart-icon { color: var(--primary); font-size: 1.1rem; }
+        
+        .media-scroller { display: flex; gap: 16px; overflow-x: auto; padding: 5px 2px; width: 100%; box-sizing: border-box; }
+        .media-scroller::-webkit-scrollbar { height: 6px; }
+        .media-scroller::-webkit-scrollbar-track { background: transparent; }
+        .media-scroller::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        .media-scroller::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        .movie-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px;
+            min-width: 150px;
+            max-width: 150px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-sizing: border-box;
+        }
+        .movie-card:hover { transform: scale(1.05); border-color: var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.6); }
+        .poster-image { width: 100%; aspect-ratio: 2 / 2.9; border-radius: 6px; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.02); }
+        .movie-card p { margin: 10px 0 2px 0; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #eee; text-align: center; }
+
+        /* THEATER FULLSCREEN PLAYER OVERLAY */
+        .theater-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            z-index: 99999;
+            display: none;
+            flex-direction: column;
+        }
+        .theater-overlay iframe { width: 100%; height: 100%; border: none; flex-grow: 1; }
+        
+        /* Floating Control Bar at the bottom */
+        .theater-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95) 50%);
+            padding: 40px 40px 25px 40px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100000;
+            pointer-events: none;
+        }
+        .theater-controls * { pointer-events: auto; }
+        
+        .active-title { font-size: 1.4rem; font-weight: bold; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin: 0; }
+        .active-meta { font-size: 13px; color: #b3b3b3; margin-top: 4px; display: block; }
+        
+        .control-buttons-wrapper { display: flex; gap: 12px; align-items: center; }
+        .server-select, .exit-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background-color: rgba(20, 20, 25, 0.85);
+            backdrop-filter: blur(10px);
+            color: white;
+            outline: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .server-select:hover, .exit-btn:hover { border-color: var(--primary); background-color: #14141d; }
+        .exit-btn { background-color: var(--primary); border: none; }
+        .exit-btn:hover { background-color: #ff1420; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <div class="header-bar">
+        <h2 class="brand-title">Cinema<span>Stream</span></h2>
+        <a href="index.html" class="nav-back">← Return to Dashboard</a>
+    </div>
+
+    <!-- Active Tab Cloaking Selector -->
+    <div class="cloak-container">
+        <span class="cloak-label">Tab Mask:</span>
+        <select id="cloakSelect" class="cloak-select" onchange="applyTabCloak()">
+            <option value="default">None (Normal Tab)</option>
+            <option value="google">Google Search</option>
+            <option value="drive">Google Drive</option>
+            <option value="classroom">Google Classroom</option>
+            <option value="clever">Clever Portal</option>
+            <option value="mcgraw">McGraw Hill</option>
+            <option value="flocab">Flocabulary</option>
+            <option value="wiki">Wikipedia</option>
+        </select>
+    </div>
+
+    <!-- Grouped Movie Rows Catalog -->
+    <div class="catalog-container">
+        <!-- ROW 1: FAVORITE SHOWS -->
+        <div class="category-row">
+            <div class="row-header"><span class="heart-icon">❤️</span><h3 class="row-title">Favorite shows</h3></div>
+            <div class="media-scroller" id="favShowsRow"></div>
+        </div>
+
+        <!-- ROW 2: MOVIES -->
+        <div class="category-row">
+            <div class="row-header"><h3 class="row-title">Movies</h3></div>
+            <div class="media-scroller" id="moviesRow"></div>
+        </div>
+
+        <!-- ROW 3: FAVORITE MOVIES -->
+        <div class="category-row">
+            <div class="row-header"><span class="heart-icon">❤️</span><h3 class="row-title">Favorite movies</h3></div>
+            <div class="media-scroller" id="favMoviesRow"></div>
+        </div>
+    </div>
+
+    <!-- BORDERLESS PLAYER OVERLAY LAYER -->
+    <div class="theater-overlay" id="videoOverlay">
+        <iframe id="theaterFrame" src="about:blank" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        
+        <div class="theater-controls">
+            <div>
+                <h3 class="active-title" id="playerMovieTitle">Loading Stream...</h3>
+                <span class="active-meta" id="playerMovieMeta">1080p Stream Engine Vector</span>
+            </div>
+            
+            <div class="control-buttons-wrapper">
+                <select id="serverRouteSelect" class="server-select" onchange="swapActiveServerRoute()">
+                    <option value="https://vidsrc.to">Server 1 (VidSrc To)</option>
+                    <option value="https://vidlink.pro">Server 2 (VidLink Pro)</option>
+                    <option value="https://embed.su">Server 3 (Embed Su)</option>
+                </select>
+                <button class="exit-btn" onclick="closeTheaterOverlay()">Close Player ✖</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cachedActiveMediaId = "";
+        let cachedActiveMediaType = "movie";
+
+        // COMPLETE DYNAMIC FILM REGISTRY WITH SYSTEM POSTERS
+        const mediaDatabase = [
+            { id: "tt19734104", title: "Exploding Kittens", year: "2024", info: "9 Episodes", img: "https://unsplash.com", type: "tv", row: "favShows" },
+            { id: "tt10376812", title: "Sweet Tooth", year: "2021", info: "3 Seasons", img: "https://unsplash.com", type: "tv", row: "favShows" },
+            { id: "tt2395695", title: "Greenland", year: "2020", info: "119 min", img: "https://unsplash.com", type: "movie", row: "movies" },
