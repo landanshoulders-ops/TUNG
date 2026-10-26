@@ -663,3 +663,23 @@ const gamesDatabase = [
             });
         }
 { id: "tt_IMDB_ID", title: "Your Film Name", year: "2026", info: "120 min", img: "POSTER_URL", type: "movie", row: "movies" },
+{ id: "tt22416706", title: "Moana 2", year: "2024", info: "100 min", mpaa: "PG", img: "https://media-amazon.com", type: "movie", row: "topRanked" },
+{ id: "tt16366836", title: "Sonic the Hedgehog 3", year: "2024", info: "110 min", mpaa: "PG", img: "https://media-amazon.com", type: "movie", row: "topRanked" },
+{ id: "tt4411604", title: "Ford v Ferrari", year: "2019", info: "152 min", mpaa: "PG-13", img: "https://media-amazon.com", type: "movie", row: "topRanked" },
+{ id: "tt28087816", title: "Find Me Falling", year: "2024", info: "93 min", mpaa: "TV-MA", img: "https://media-amazon.com", type: "movie", row: "topRanked" },
+{ id: "tt2395695", title: "Greenland", year: "2020", info: "119 min", mpaa: "PG-13", img: "https://media-amazon.com", type: "movie", row: "topRanked" },
+{ id: "tt19734104", title: "Exploding Kittens", year: "2024", info: "9 Episodes", mpaa: "TV-MA", img: "https://media-amazon.com", type: "tv", row: "favShows" },
+{ id: "tt10376812", title: "Sweet Tooth", year: "2021", info: "3 Seasons", mpaa: "TV-14", img: "https://media-amazon.com", type: "tv", row: "favShows" },
+{ id: "tt11196014", title: "Only Murders in the Building", year: "2021", info: "4 Seasons", mpaa: "TV-MA", img: "https://media-amazon.com", type: "tv", row: "favShows" },
+{ id: "tt13443470", title: "Wednesday", year: "2022", info: "1 Season", mpaa: "TV-14", img: "https://media-amazon.com", type: "tv", row: "favShows" },
+{ id: "tt0111161", title: "Friends", year: "1994", info: "10 Seasons", mpaa: "TV-14", img: "https://media-amazon.com", type: "tv", row: "favShows" },
+{ id: "tt2395695", title: "Greenland", year: "2020", info: "119 min", mpaa: "PG-13", img: "https://media-amazon.com", type: "movie", row: "movies" },
+{ id: "tt28087816", title: "Find Me Falling", year: "2024", info: "93 min", mpaa: "TV-MA", img: "https://media-amazon.com", type: "movie", row: "movies" },
+{ id: "tt4411604", title: "Ford v Ferrari", year: "2019", info: "152 min", mpaa: "PG-13", img: "https://media-amazon.com", type: "movie", row: "movies" },
+{ id: "tt16366836", title: "Sonic the Hedgehog 3", year: "2024", info: "110 min", mpaa: "PG", img: "https://media-amazon.com", type: "movie", row: "movies" },
+{ id: "tt29605705", title: "The Union", year: "2024", info: "107 min", mpaa: "PG-13", img: "https://media-amazon.com", type: "movie", row: "movies" },
+{ id: "tt22416706", title: "Moana 2", year: "2024", info: "100 min", mpaa: "PG", img: "https://media-amazon.com", type: "movie", row: "favMovies" },
+{ id: "tt1630029", title: "Avatar 3: Fire and Ash", year: "2025", info: "Coming Soon", mpaa: "PG-13", img: "https://media-amazon.com", type: "movie", row: "favMovies" },
+{ id: "tt634649", title: "Spider-Man: No Way Home", year: "2021", info: "148 min", mpaa: "PG-13", img: "https://media-amazon.com", type: "movie", row: "favMovies" },
+{ id: "tt0119116", title: "The Fifth Element", year: "1997", info: "126 min", mpaa: "PG-13", img: "https://media-amazon.com", type: "movie", row: "favMovies" },
+{ id: "tt0109830", title: "Forrest Gump", year: "1994", info: "142 min", mpaa: "PG-13", img: "https://media-amazon.com", type: "movie", row: "favMovies" }
