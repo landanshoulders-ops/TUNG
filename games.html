@@ -1,1 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive - My Drive</title>
+    <link rel="icon" type="image/x-icon" href="https://gstatic.com">
+    <style>
+        body {
+            background-color: #0d0d12;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        h1 { color: #00bcd4; margin-bottom: 5px; font-size: 2.5rem; }
+        .sub { color: #8c8c8c; margin-bottom: 30px; font-size: 14px; }
+        .nav-link { color: #e50914; font-weight: bold; text-decoration: none; margin-bottom: 20px; display: inline-block; }
+        
+        .game-grid {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .game-card {
+            background-color: #16161d;
+            border: 2px solid #2a2a35;
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+        }
+        .game-card:hover {
+            border-color: #00bcd4;
+            background-color: #1f1f2e;
+            transform: translateY(-2px);
+        }
+        .game-card.active {
+            background-color: #00bcd4;
+            border-color: #00bcd4;
+            color: black;
+        }
+        
+        .game-container {
+            width: 100%;
+            max-width: 950px;
+            margin: 20px auto 0 auto;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid #1f1f27;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Unblocked Arcade Hub</h1>
+    <div class="sub">Instant gameplay powered by public CDN servers. No local game files required.</div>
+    <a href="index.html" class="nav-link">← Switch to Movies Mode</a>
+
+    <!-- Game Selection Buttons -->
+    <div class="game-grid">
+        <button class="game-card" onclick="loadGame('https://googleusercontent.com', this)">Retro Bowl</button>
+        <button class="game-card" onclick="loadGame('https://github.io', this)">1v1.LOL</button>
+        <button class="game-card" onclick="loadGame('https://github.io', this)">Slope</button>
+        <button class="game-card" onclick="loadGame('https://github.io', this)">Drift Hunters</button>
+    </div>
+
+    <!-- The Active Game Screen Emulator -->
+    <div class="game-container">
+        <iframe id="gameViewport" src="about:blank" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        // Panic Button Handler (ESC key redirects to Google Classroom)
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                window.location.replace('https://google.com');
+            }
+        });
+
+        // Dynamic Game Switcher Link Engine
+        function loadGame(embedUrl, element) {
+            // Update the Iframe viewport source
+            document.getElementById('gameViewport').src = embedUrl;
+
+            // Manage active visual state styling on buttons
+            let cards = document.querySelectorAll('.game-card');
+            cards.forEach(card => card.classList.remove('active'));
+            element.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
 
