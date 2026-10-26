@@ -145,3 +145,84 @@ window.addEventListener('keydown', function(e) {
     }
 });
 </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unblocked Portal Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="">
+    <style>
+        body { background-color: #0d0d12; color: #ffffff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        h1 { font-size: 2.5rem; margin-bottom: 5px; font-weight: 700; text-align: center; }
+        h1 span { color: #e50914; }
+        .sub { color: #8c8c8c; margin-bottom: 20px; font-size: 15px; text-align: center; }
+        .portal-grid { display: flex; gap: 20px; max-width: 700px; width: 100%; justify-content: center; flex-wrap: wrap; }
+        .portal-card { background-color: #16161d; border: 2px solid #2a2a35; border-radius: 12px; padding: 35px 25px; flex: 1; min-width: 240px; text-align: center; text-decoration: none; color: white; transition: all 0.2s ease; }
+        .portal-card:hover { transform: translateY(-4px); }
+        .card-movies:hover { border-color: #e50914; }
+        .card-games:hover { border-color: #00bcd4; }
+        .icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+        .card-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 8px; display: block; }
+        .card-desc { color: #aaabb2; font-size: 13px; display: block; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+    <h1>Unblocked Portal <span>Dashboard</span></h1>
+    <div class="sub">Select a path to launch scripts. Press ESC to panic open Google Classroom.</div>
+
+    <!-- TAB CLOAK SELECTOR -->
+    <div style="margin-bottom: 25px; text-align: center;">
+        <label for="cloakSelect" style="color: #8c8c8c; font-size: 14px; margin-right: 10px;">Select Tab Mask:</label>
+        <select id="cloakSelect" onchange="applyTabCloak()" style="background-color: #1f1f2e; border: 2px solid #2a2a3d; color: white; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer;">
+            <option value="default">None (Normal Tab)</option>
+            <option value="google">Google Search</option>
+            <option value="drive">Google Drive</option>
+            <option value="classroom">Google Classroom</option>
+            <option value="clever">Clever Portal</option>
+            <option value="mcgraw">McGraw Hill</option>
+            <option value="flocab">Flocabulary</option>
+            <option value="wiki">Wikipedia</option>
+        </select>
+    </div>
+
+    <div class="portal-grid">
+        <a href="movies.html" class="portal-card card-movies">
+            <span class="icon">🎬</span>
+            <span class="card-title">Cinema Hub</span>
+            <span class="card-desc">Query live public embed network database nodes for films and series.</span>
+        </a>
+        <a href="games.html" class="portal-card card-games">
+            <span class="icon">🎮</span>
+            <span class="card-title">Arcade Hub</span>
+            <span class="card-desc">Load zero-storage footprint unblocked CDN HTML game files.</span>
+        </a>
+    </div>
+
+    <script>
+    function applyTabCloak() {
+        const choice = document.getElementById('cloakSelect').value;
+        const presets = {
+            default: { title: "Unblocked Portal Dashboard", icon: "" },
+            google: { title: "Google", icon: "https://google.com" },
+            drive: { title: "Google Drive - My Drive", icon: "https://gstatic.com" },
+            classroom: { title: "Classes", icon: "https://gstatic.com" },
+            clever: { title: "Clever | Portal", icon: "https://clever.com" },
+            mcgraw: { title: "McGraw Hill Log In", icon: "https://mheducation.com" },
+            flocab: { title: "Flocabulary - Educational Hip-Hop", icon: "https://flocabulary.com" },
+            wiki: { title: "Wikipedia, the free encyclopedia", icon: "https://wikipedia.org" }
+        };
+        const target = presets[choice] || presets['default'];
+        document.title = target.title;
+        let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/x-icon'; link.rel = 'shortcut icon'; link.href = target.icon;
+        document.getElementsByTagName('head')[0].appendChild(link);
+    }
+
+    window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') { window.location.replace('https://google.com'); }
+    });
+    </script>
+</body>
+</html>
