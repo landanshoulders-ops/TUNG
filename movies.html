@@ -234,3 +234,227 @@
                 <span class="active-media-details" id="playerMovieMeta">1080p Ultra-HD Mirror Configuration</span>
             </div>
             
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Player Hub</title>
+    <style>
+        :root {
+            --bg-black: #141414;
+            --netflix-red: #E50914;
+            --card-hover: #181818;
+            --border-gray: #333333;
+            --text-white: #FFFFFF;
+            --text-gray: #AAAAAA;
+        }
+        
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .navigation-header { 
+            width: 100%; 
+            padding: 20px 4%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-sizing: border-box; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            position: absolute;
+            top: 0;
+            z-index: 10;
+        }
+        .brand-logo { font-size: 1.8rem; font-weight: 900; margin: 0; color: var(--netflix-red); letter-spacing: -1px; }
+        .brand-logo span { color: var(--text-white); font-weight: 400; font-size: 1.2rem; margin-left: 5px; }
+        .nav-back-btn { color: var(--text-white); font-weight: bold; text-decoration: none; font-size: 14px; background-color: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 4px; border: 1px solid #444; transition: 0.2s ease; }
+        .nav-back-btn:hover { background-color: var(--text-white); color: #000; border-color: var(--text-white); }
+
+        .catalog-showcase { 
+            width: 100%; 
+            padding: 120px 4% 60px 4%;
+            box-sizing: border-box;
+            display: flex; 
+            flex-direction: column; 
+            gap: 40px; 
+        }
+        .showcase-row { display: flex; flex-direction: column; gap: 15px; width: 100%; }
+        
+        .row-heading-group { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .row-main-title { font-size: 1.4rem; font-weight: 700; margin: 0; color: var(--text-white); }
+        .row-indicator-arrow { color: #54b9c5; font-size: 0.8rem; transform: translateX(0); transition: 0.2s ease; font-weight: 900; }
+        .row-heading-group:hover .row-indicator-arrow { transform: translateX(5px); color: var(--text-white); }
+        
+        .scroller-viewport { display: flex; gap: 12px; overflow-x: auto; padding: 10px 0; width: 100%; box-sizing: border-box; }
+        .scroller-viewport::-webkit-scrollbar { display: none; }
+
+        .poster-card-frame {
+            position: relative;
+            min-width: 180px;
+            max-width: 180px;
+            aspect-ratio: 2 / 3;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .poster-image-render {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .poster-card-frame:hover { 
+            transform: scale(1.08); 
+            box-shadow: 0 12px 30px rgba(0,0,0,0.8);
+            z-index: 5;
+        }
+        
+        .card-title-shield {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0) 100%);
+            padding: 25px 12px 12px 12px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .poster-card-frame:hover .card-title-shield { opacity: 1; }
+        .shield-text-title { font-size: 13px; font-weight: 700; color: #fff; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .shield-text-year { font-size: 11px; color: var(--netflix-red); font-weight: bold; margin-top: 2px; display: block; }
+
+        /* MULTI-SERVER CLEAN WINDOW MODAL CONTAINER */
+        .theater-viewport-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            z-index: 99999;
+            display: none;
+            flex-direction: column;
+        }
+        .theater-viewport-modal iframe { width: 100%; height: 100%; border: none; flex-grow: 1; }
+        
+        .theater-console-strip {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95) 45%);
+            padding: 40px 4% 30px 4%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100000;
+            pointer-events: none;
+        }
+        .theater-console-strip * { pointer-events: auto; }
+        
+        .active-media-title { font-size: 1.6rem; font-weight: 800; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.9); margin: 0; }
+        .active-media-details { font-size: 13px; color: var(--text-gray); margin-top: 5px; display: block; }
+        
+        .action-button-group { display: flex; gap: 12px; align-items: center; }
+        .selector-menu, .exit-stream-btn {
+            padding: 12px 24px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background-color: rgba(24, 24, 24, 0.85);
+            backdrop-filter: blur(15px);
+            color: white;
+            outline: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+        .selector-menu:hover, .exit-stream-btn:hover { border-color: #fff; background-color: #222; }
+        .exit-stream-btn { background-color: var(--netflix-red); border: none; }
+        .exit-stream-btn:hover { background-color: #ff121d; }
+
+        .mask-control-bar { width: 100%; max-width: 1200px; padding: 0 4%; box-sizing: border-box; margin-top: 100px; margin-bottom: -90px; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-gray); font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <div class="navigation-header">
+        <h2 class="brand-logo">NETFLIX<span>Sandbox</span></h2>
+        <a href="index.html" class="nav-back-btn">← Home Dashboard</a>
+    </div>
+
+    <div class="mask-control-bar">
+        <span>Tab Mask Environment:</span>
+        <select id="cloakSelect" class="selector-menu" onchange="applyTabCloak()" style="padding: 6px 12px; font-size: 12px; background: rgba(0,0,0,0.4);">
+            <option value="default">None (Normal Tab)</option>
+            <option value="google">Google Search</option>
+            <option value="drive">Google Drive</option>
+            <option value="classroom">Google Classroom</option>
+            <option value="clever">Clever Portal</option>
+            <option value="mcgraw">McGraw Hill</option>
+            <option value="wiki">Wikipedia</option>
+        </select>
+    </div>
+
+    <div class="catalog-showcase">
+        <div class="showcase-row">
+            <div class="row-heading-group"><h3 class="row-main-title">Favorite shows</h3><span class="row-indicator-arrow">Explore All ❯</span></div>
+            <div class="scroller-viewport" id="favShowsRow"></div>
+        </div>
+        <div class="showcase-row">
+            <div class="row-heading-group"><h3 class="row-main-title">Movies</h3><span class="row-indicator-arrow">Explore All ❯</span></div>
+            <div class="scroller-viewport" id="moviesRow"></div>
+        </div>
+        <div class="showcase-row">
+            <div class="row-heading-group"><h3 class="row-main-title">Favorite movies</h3><span class="row-indicator-arrow">Explore All ❯</span></div>
+            <div class="scroller-viewport" id="favMoviesRow"></div>
+        </div>
+    </div>
+
+    <!-- CLEAN PLAYER OVERLAY TERMINAL -->
+    <div class="theater-viewport-modal" id="videoOverlay">
+        <iframe id="theaterFrame" src="about:blank" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        
+        <div class="theater-console-strip">
+            <div>
+                <h3 class="active-media-title" id="playerMovieTitle">Loading Clean Mirror Node...</h3>
+                <span class="active-media-details" id="playerMovieMeta">Ad-Free API Node Connection Partition</span>
+            </div>
+            
+            <div class="action-button-group">
+                <!-- Cleaner, pop-up-less streaming routes arranged up top -->
+                <select id="serverRouteSelect" class="selector-menu" onchange="swapActiveServerRoute()">
+                    <option value="https://vidlink.pro">Server 1 (VidLink - Cleanest 💎)</option>
+                    <option value="https://embed.su">Server 2 (Embed.su - Low Ads ⚡)</option>
+                    <option value="https://vidsrc.to">Server 3 (VidSrc To - Backup 🛠️)</option>
+                </select>
+                <button class="exit-stream-btn" onclick="closeTheaterOverlay()">Close Stream ✖</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cachedActiveMediaId = "";
+        let cachedActiveMediaType = "movie";
+
+        const mediaDatabase = [
