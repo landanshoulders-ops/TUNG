@@ -553,3 +553,33 @@ function toggleCloak() {
         isCloaked = false;
     }
 }
+const presets = {
+    google: { 
+        title: "Google", 
+        icon: "https://google.com" 
+    },
+    drive: { 
+        title: "Google Drive - My Drive", 
+        icon: "https://gstatic.com" 
+    },
+    classroom: { 
+        title: "Classes", 
+        icon: "https://gstatic.com" 
+    },
+    clever: { 
+        title: "Clever | Portal", 
+        icon: "https://clever.com" 
+    },
+    mcgraw: { 
+        title: "McGraw Hill Log In", 
+        icon: "https://mheducation.com" 
+    },
+    flocab: { 
+        title: "Flocabulary - Educational Hip-Hop", 
+        icon: "https://flocabulary.com" 
+    },
+    wiki: { 
+        title: "Wikipedia, the free encyclopedia", 
+        icon: "https://wikipedia.org" 
+    }
+};
