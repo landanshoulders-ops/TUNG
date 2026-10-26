@@ -214,3 +214,234 @@ function showCategory(category, buttonElement) {
         document.getElementById('settingsPanel').style.display = 'block';
     }
 }
+function launchUnblocked() {
+    var win = window.open();
+    win.document.body.style.margin = '0';
+    win.document.body.style.height = '100vh';
+    var iframe = win.document.createElement('iframe');
+    iframe.style.border = 'none';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.src = window.location.href; // Opens your website inside the blank tab
+    win.document.body.appendChild(iframe);
+    window.location.replace('https://google.com'); // Redirects original tab
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive - My Drive</title>
+    <link rel="icon" type="image/x-icon" href="https://gstatic.com">
+    <style>
+        body {
+            background-color: #0b0b0e;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 { color: #00bcd4; margin: 10px 0 5px 0; font-size: 2.2rem; }
+        .sub { color: #8c8c8c; margin-bottom: 20px; font-size: 13px; }
+        .nav-link { color: #e50914; font-weight: bold; text-decoration: none; margin-bottom: 15px; font-size: 15px; }
+
+        /* Massive Scaling Engine Styles */
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 16px;
+            border-radius: 30px;
+            border: 2px solid #2a2a35;
+            background-color: #16161d;
+            color: white;
+            outline: none;
+            box-sizing: border-box;
+            transition: 0.2s;
+        }
+        .search-bar:focus { border-color: #00bcd4; }
+
+        /* Scrollable Dynamic Game List Grid */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            width: 100%;
+            max-width: 1100px;
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #121218;
+            border-radius: 10px;
+            border: 1px solid #1f1f27;
+            box-sizing: border-box;
+        }
+        /* Custom Scrollbar for clean aesthetics */
+        .game-grid::-webkit-scrollbar { width: 8px; }
+        .game-grid::-webkit-scrollbar-track { background: #121218; }
+        .game-grid::-webkit-scrollbar-thumb { background: #2a2a35; border-radius: 4px; }
+        .game-grid::-webkit-scrollbar-thumb:hover { background: #00bcd4; }
+
+        .game-card {
+            background-color: #1c1c24;
+            border: 1px solid #2d2d3d;
+            padding: 15px 10px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #e0e0e6;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .game-card:hover {
+            border-color: #00bcd4;
+            background-color: #242433;
+            transform: scale(1.03);
+            color: white;
+        }
+        .game-card.active { background-color: #00bcd4; border-color: #00bcd4; color: black; }
+
+        /* Live Play Viewport Frame */
+        .game-container {
+            width: 100%;
+            max-width: 1100px;
+            margin-top: 25px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid #1f1f27;
+            position: relative;
+        }
+        iframe { width: 100%; height: 550px; border: none; display: block; }
+        
+        .frame-bar {
+            background-color: #121218;
+            padding: 8px 15px;
+            display: flex;
+            justify-content: flex-end;
+            border-bottom: 1px solid #1f1f27;
+        }
+        .fs-btn {
+            background: none;
+            border: none;
+            color: #8c8c8c;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .fs-btn:hover { color: #00bcd4; }
+    </style>
+</head>
+<body>
+
+    <h1>Massive Arcade System</h1>
+    <div class="sub">Dynamic structural indexing built to handle extensive file counts cleanly.</div>
+    <a href="index.html" class="nav-link">🎬 Switch to Movies Mode</a>
+
+    <!-- Live Filtering Search Engine -->
+    <div class="search-container">
+        <input type="text" id="searchBar" class="search-bar" placeholder="Search across games database list..." onkeyup="filterGames()">
+    </div>
+
+    <!-- Scalable Grid Container (Populated automatically by JS database) -->
+    <div class="game-grid" id="gameGrid"></div>
+
+    <!-- Gameplay Environment -->
+    <div class="game-container">
+        <div class="frame-bar">
+            <button class="fs-btn" onclick="toggleFullscreen()">Fullscreen Mode ⛶</button>
+        </div>
+        <iframe id="gameViewport" src="about:blank" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        // MASTER DATABASE REGISTRY
+        // Simply add new items to this array to seamlessly scale up to thousands of entries
+        const gamesDatabase = [
+            { name: "Retro Bowl", url: "https://googleusercontent.com" },
+            { name: "1v1.LOL", url: "https://github.io" },
+            { name: "Slope", url: "https://github.io" },
+            { name: "Drift Hunters", url: "https://github.io" },
+            { name: "Cookie Clicker", url: "https://github.io" },
+            { name: "Smash Karts", url: "https://github.io" },
+            { name: "Subway Surfers", url: "https://github.io" },
+            { name: "BitLife", url: "https://github.io" },
+            { name: "Minecraft Classic", url: "https://github.io" },
+            { name: "Tunnel Rush", url: "https://github.io" },
+            { name: "Geometry Dash", url: "https://github.io" },
+            { name: "Happy Wheels", url: "https://github.io" }
+            // Future links drop directly below this line following the precise comma layout pattern
+        ];
+
+        // Generation Engine Initialization
+        function buildArcadeGrid() {
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = ''; // Reset frame layout clear
+
+            gamesDatabase.sort((a, b) => a.name.localeCompare(b.name)); // Alphabetical sorting block
+
+            gamesDatabase.forEach(game => {
+                const element = document.createElement('div');
+                element.className = 'game-card';
+                element.textContent = game.name;
+                element.setAttribute('onclick', `launchGame('${game.url}', this)`);
+                grid.appendChild(element);
+            });
+        }
+
+        // Live Real-Time Search Filtering
+        function filterGames() {
+            const query = document.getElementById('searchBar').value.toLowerCase();
+            const cards = document.getElementsByClassName('game-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                const title = cards[i].textContent.toLowerCase();
+                if (title.includes(query)) {
+                    cards[i].style.display = "block";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+
+        // Action Execution Launch Mechanics
+        function launchGame(url, cardElement) {
+            document.getElementById('gameViewport').src = url;
+            
+            const activeCards = document.querySelectorAll('.game-card');
+            activeCards.forEach(c => c.classList.remove('active'));
+            cardElement.classList.add('active');
+        }
+
+        // Feature Block: Target Container Request Elements Fullscreen View
+        function toggleFullscreen() {
+            const viewport = document.getElementById('gameViewport');
+            if (viewport.requestFullscreen) { viewport.requestFullscreen(); }
+            else if (viewport.webkitRequestFullscreen) { viewport.webkitRequestFullscreen(); }
+            else if (viewport.msRequestFullscreen) { viewport.msRequestFullscreen(); }
+        }
+
+        // Keyboard Panic Switch Hook
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { window.location.replace('https://google.com'); }
+        });
+
+        // Run Deployment Core
+        buildArcadeGrid();
+    </script>
+</body>
+</html>
+{ name: "Your Game Title Here", url: "https://github.io" },
