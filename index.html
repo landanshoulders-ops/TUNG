@@ -226,3 +226,171 @@ window.addEventListener('keydown', function(e) {
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unblocked Portal Dashboard</title>
+    <style>
+        body {
+            background-color: #0d0d12;
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 5px; font-weight: 700; text-align: center; }
+        h1 span { color: #e50914; }
+        .sub { color: #8c8c8c; margin-bottom: 30px; font-size: 15px; text-align: center; }
+        
+        .cloak-panel {
+            background-color: #16161d;
+            border: 2px solid #2a2a35;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        select, button {
+            padding: 12px 16px;
+            font-size: 15px;
+            border-radius: 6px;
+            border: 1px solid #2a2a35;
+            background-color: #0d0d12;
+            color: white;
+            outline: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button { background-color: #e50914; border: none; margin-top: 15px; transition: 0.2s; }
+        button:hover { background-color: #f40b17; transform: translateY(-1px); }
+
+        .portal-grid { display: flex; gap: 20px; max-width: 700px; width: 100%; justify-content: center; flex-wrap: wrap; }
+        .portal-card {
+            background-color: #16161d;
+            border: 2px solid #2a2a35;
+            border-radius: 12px;
+            padding: 35px 25px;
+            flex: 1;
+            min-width: 240px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        .portal-card:hover { transform: translateY(-4px); border-color: #e50914; }
+        .icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+        .card-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 8px; display: block; }
+        .card-desc { color: #aaabb2; font-size: 13px; display: block; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+    <h1>Unblocked Portal <span>Dashboard</span></h1>
+    <div class="sub">Select a mask configuration and open your layout in a stealth tab environment.</div>
+
+    <!-- ADVANCED CLOAK CONTROL BOX -->
+    <div class="cloak-panel">
+        <label for="cloakSelect" style="color: #8c8c8c; font-size: 14px;">1. Choose Your Disguise Profile:</label>
+        <select id="cloakSelect">
+            <option value="google">Google Search</option>
+            <option value="drive">Google Drive</option>
+            <option value="classroom">Google Classroom</option>
+            <option value="clever">Clever Portal</option>
+            <option value="mcgraw">McGraw Hill</option>
+            <option value="flocab">Flocabulary</option>
+            <option value="wiki">Wikipedia</option>
+        </select>
+        
+        <button onclick="launchStealthTab()">2. Launch into about:blank 🚀</button>
+    </div>
+
+    <!-- PREVIEW NAV GRID (Will open normally if clicked directly) -->
+    <div class="portal-grid">
+        <a href="movies.html" class="portal-card">
+            <span class="icon">🎬</span>
+            <span class="card-title">Cinema Hub</span>
+            <span class="card-desc">Query live public embed database networks for movies.</span>
+        </a>
+        <a href="games.html" class="portal-card">
+            <span class="icon">🎮</span>
+            <span class="card-title">Arcade Hub</span>
+            <span class="card-desc">Load zero-storage unblocked HTML game files.</span>
+        </a>
+    </div>
+
+    <script>
+    function launchStealthTab() {
+        const choice = document.getElementById('cloakSelect').value;
+        
+        // Define all titles and icon paths
+        const presets = {
+            google: { title: "Google", icon: "https://google.com" },
+            drive: { title: "Google Drive - My Drive", icon: "https://gstatic.com" },
+            classroom: { title: "Classes", icon: "https://gstatic.com" },
+            clever: { title: "Clever | Portal", icon: "https://clever.com" },
+            mcgraw: { title: "McGraw Hill Log In", icon: "https://mheducation.com" },
+            flocab: { title: "Flocabulary - Educational Hip-Hop", icon: "https://flocabulary.com" },
+            wiki: { title: "Wikipedia, the free encyclopedia", icon: "https://wikipedia.org" }
+        };
+
+        const mask = presets[choice];
+
+        // Step A: Open a brand new, completely blank browser tab
+        const stealthWindow = window.open('about:blank', '_blank');
+        if (!stealthWindow) {
+            alert("Pop-up blocker detected! Please click the pop-up icon in your browser URL bar and choose 'Always allow' to launch stealth mode.");
+            return;
+        }
+
+        // Step B: Overwrite the blank tab's title and favicon using code injection
+        stealthWindow.document.title = mask.title;
+        
+        let link = stealthWindow.document.createElement('link');
+        link.rel = 'shortcut icon';
+        link.type = 'image/x-icon';
+        link.href = mask.icon;
+        stealthWindow.document.getElementsByTagName('head')[0].appendChild(link);
+
+        // Step C: Inject a full-screen iframe pointing back to your website inside the about:blank window
+        const iframe = stealthWindow.document.createElement('iframe');
+        iframe.src = window.location.href; // Captures your current Vercel layout path
+        iframe.style.position = 'fixed';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+        iframe.style.bottom = '0';
+        iframe.style.right = '0';
+        iframe.style.width = '100vw';
+        iframe.style.height = '100vh';
+        iframe.style.border = 'none';
+        iframe.style.margin = '0';
+        iframe.style.padding = '0';
+        iframe.style.overflow = 'hidden';
+        iframe.style.zIndex = '999999';
+        
+        stealthWindow.document.body.appendChild(iframe);
+
+        // Step D: (Optional Fail-safe) Redirect your original Vercel window to look innocent right away
+        window.location.replace('https://google.com');
+    }
+
+    // Global Panic Key Option
+    window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') { window.location.replace('https://google.com'); }
+    });
+    </script>
+</body>
+</html>
