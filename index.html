@@ -709,3 +709,527 @@ window.addEventListener("keydown", function(event) {
 
 </body>
 </html>
+<iframe src="YOUR_VIDEO_URL_HERE" width="100%" height="500px" frameborder="0" allowfullscreen></iframe><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background-color: #111; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
+        .input-container { margin-bottom: 20px; }
+        input { padding: 10px; width: 250px; border-radius: 5px; border: none; }
+        button { padding: 10px 20px; border-radius: 5px; border: none; background: #e50914; color: white; cursor: pointer; font-weight: bold; }
+        button:hover { background: #b80710; }
+        iframe { width: 100%; max-width: 800px; height: 450px; border: 2px solid #333; border-radius: 8px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <h2>Unblocked Movie Server Player</h2>
+    <p>Enter an IMDb ID (e.g., <code>tt0111161</code> for The Shawshank Redemption) or TMDB ID:</p>
+
+    <div class="input-container">
+        <input type="text" id="movieId" placeholder="e.g., tt0111161 or 27205">
+        <button onclick="loadMovie()">Play Movie</button>
+    </div>
+
+    <!-- The Server Embed Container -->
+    <iframe id="videoPlayer" src="about:blank" allowfullscreen></iframe>
+
+    <script>
+        function loadMovie() {
+            var id = document.getElementById('movieId').value.trim();
+            if(id === "") { alert("Please enter an ID!"); return; }
+            
+            // This pulls directly from a public, free streaming server API
+            // It automatically matches the movie and serves the video player
+            var serverUrl = "https://vidsrc.to" + id;
+            
+            document.getElementById('videoPlayer').src = serverUrl;
+        }
+    </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unblocked Media Hub</title>
+    <style>
+        body {
+            background-color: #0b0b0e;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        h1 { color: #e50914; margin-bottom: 5px; }
+        .sub { color: #8c8c8c; margin-bottom: 30px; font-size: 14px; }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        input, select, button {
+            padding: 12px 16px;
+            font-size: 15px;
+            border-radius: 6px;
+            border: 1px solid #2a2a35;
+            background-color: #16161d;
+            color: white;
+            outline: none;
+            transition: 0.2s;
+        }
+        input:focus, select:focus { border-color: #e50914; }
+        input { width: 220px; }
+        select { cursor: pointer; }
+        
+        button {
+            background-color: #e50914;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background-color: #f40b17; transform: translateY(-1px); }
+        
+        .player-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            border: 1px solid #1f1f27;
+        }
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Unblocked Media Hub</h1>
+    <div class="sub">Stream dynamically using public API nodes. No local hosting required.</div>
+
+    <div class="controls">
+        <!-- Input ID -->
+        <input type="text" id="mediaId" placeholder="Enter IMDb ID (tt...) or TMDB ID" value="tt0111161">
+        
+        <!-- Server Select Dropdown -->
+        <select id="serverSelect" onchange="updateServer()">
+            <option value="https://vidsrc.to">Server 1 (VidSrc To)</option>
+            <option value="https://vidlink.pro">Server 2 (VidLink Pro)</option>
+            <option value="https://vidsrc.me">Server 3 (VidSrc Me)</option>
+            <option value="https://embed.su">Server 4 (Embed Su)</option>
+            <option value="https://cinesrc.st">Server 5 (CineSrc)</option>
+        </select>
+
+        <button onclick="playMedia()">Stream Video</button>
+    </div>
+
+    <!-- Video Output Container -->
+    <div class="player-container">
+        <iframe id="hubPlayer" src="about:blank" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+
+    <script>
+        function playMedia() {
+            var id = document.getElementById('mediaId').value.trim();
+            var serverBase = document.getElementById('serverSelect').value;
+            
+            if (id === "") {
+                alert("Please enter a valid movie ID (e.g., tt0111161 or 27205)");
+                return;
+            }
+
+            // Combine base server URL + the unique Movie ID
+            var finalUrl = serverBase + id;
+            
+            // Inject URL to iframe
+            document.getElementById('hubPlayer').src = finalUrl;
+        }
+
+        // Automatically swap streams if the user changes servers mid-watch
+        function updateServer() {
+            var currentSrc = document.getElementById('hubPlayer').src;
+            if (currentSrc !== "about:blank" && currentSrc !== "") {
+                playMedia();
+            }
+        }
+    </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Unblocked Media Hub</title>
+    <style>
+        body {
+            background-color: #0d0d12;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        h1 { color: #e50914; margin-bottom: 5px; font-size: 2.5rem; }
+        .sub { color: #8c8c8c; margin-bottom: 30px; font-size: 14px; }
+        
+        .type-selector {
+            margin-bottom: 20px;
+        }
+        .type-btn {
+            background-color: #1f1f2e;
+            border: 2px solid #2a2a3d;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 20px;
+            margin: 0 5px;
+            transition: 0.2s;
+        }
+        .type-btn.active {
+            background-color: #e50914;
+            border-color: #e50914;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        input, select, button {
+            padding: 12px 16px;
+            font-size: 15px;
+            border-radius: 6px;
+            border: 1px solid #2a2a35;
+            background-color: #16161d;
+            color: white;
+            outline: none;
+            transition: 0.2s;
+        }
+        input:focus, select:focus { border-color: #e50914; }
+        input { width: 220px; }
+        .tv-meta { width: 80px; }
+        select { cursor: pointer; }
+        
+        button {
+            background-color: #e50914;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background-color: #f40b17; transform: translateY(-1px); }
+        
+        .hidden { display: none !important; }
+
+        .player-container {
+            width: 100%;
+            max-width: 950px;
+            margin: 20px auto 0 auto;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid #1f1f27;
+        }
+        iframe {
+            width: 100%;
+            height: 530px;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Unblocked Media Hub</h1>
+    <div class="sub">Stream movies and series directly inside your proxy hub network.</div>
+
+    <!-- Toggle between Movie and TV layouts -->
+    <div class="type-selector">
+        <button class="type-btn active" id="movieModeBtn" onclick="setMode('movie')">Movie Mode</button>
+        <button class="type-btn" id="tvModeBtn" onclick="setMode('tv')">TV Show Mode</button>
+    </div>
+
+    <div class="controls">
+        <!-- Main Media ID Input -->
+        <input type="text" id="mediaId" placeholder="Enter IMDb ID (tt...) or TMDB ID" value="tt0111161">
+        
+        <!-- TV Specific Inputs (Hidden by default) -->
+        <input type="number" id="seasonNum" class="tv-meta hidden" placeholder="Ssn" value="1" min="1">
+        <input type="number" id="episodeNum" class="tv-meta hidden" placeholder="Ep" value="1" min="1">
+        
+        <!-- API Server Selector Nodes -->
+        <select id="serverSelect" onchange="checkAndRefresh()">
+            <option value="https://vidsrc.to">Server 1 (VidSrc To)</option>
+            <option value="https://vidlink.pro">Server 2 (VidLink Pro)</option>
+            <option value="https://vidsrc.me">Server 3 (VidSrc Me)</option>
+            <option value="https://embed.su">Server 4 (Embed Su)</option>
+        </select>
+
+        <button onclick="streamContent()">Launch Stream</button>
+    </div>
+
+    <!-- Embedded Player Viewport -->
+    <div class="player-container">
+        <iframe id="hubPlayer" src="about:blank" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+
+    <script>
+        let currentMode = 'movie';
+
+        function setMode(mode) {
+            currentMode = mode;
+            const movieBtn = document.getElementById('movieModeBtn');
+            const tvBtn = document.getElementById('tvModeBtn');
+            const seasonInput = document.getElementById('seasonNum');
+            const episodeInput = document.getElementById('episodeNum');
+            const idInput = document.getElementById('mediaId');
+
+            if (mode === 'movie') {
+                movieBtn.classList.add('active');
+                tvBtn.classList.remove('active');
+                seasonInput.classList.add('hidden');
+                episodeInput.classList.add('hidden');
+                idInput.placeholder = "Enter IMDb ID (tt...) or TMDB ID";
+                idInput.value = "tt0111161"; // Example: Shawshank Redemption
+            } else {
+                tvBtn.classList.add('active');
+                movieBtn.classList.remove('active');
+                seasonInput.classList.remove('hidden');
+                episodeInput.classList.remove('hidden');
+                idInput.placeholder = "Enter Show IMDb or TMDB ID";
+                idInput.value = "tt0944947"; // Example: Game of Thrones
+            }
+        }
+
+        function streamContent() {
+            const id = document.getElementById('mediaId').value.trim();
+            const serverBase = document.getElementById('serverSelect').value;
+            const iframe = document.getElementById('hubPlayer');
+            
+            if (id === "") {
+                alert("Please enter a valid content identifier code.");
+                return;
+            }
+
+            let finalUrl = "";
+
+            if (currentMode === 'movie') {
+                // Formatting for Movie Server requests
+                finalUrl = serverBase + "movie/" + id;
+            } else {
+                // Formatting for TV Series Server requests
+                const season = document.getElementById('seasonNum').value || "1";
+                const episode = document.getElementById('episodeNum').value || "1";
+                finalUrl = serverBase + "tv/" + id + "/" + season + "/" + episode;
+            }
+            
+            iframe.src = finalUrl;
+        }
+
+        function checkAndRefresh() {
+            const currentSrc = document.getElementById('hubPlayer').src;
+            if (currentSrc !== "about:blank" && currentSrc !== "") {
+                streamContent();
+            }
+        }
+    </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive - My Drive</title>
+    <!-- Official Google Drive Favicon link to disguise the tab icon -->
+    <link rel="icon" type="image/x-icon" href="https://gstatic.com">
+    
+    <style>
+        body {
+            background-color: #0d0d12;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        h1 { color: #e50914; margin-bottom: 5px; font-size: 2.5rem; }
+        .sub { color: #8c8c8c; margin-bottom: 30px; font-size: 14px; }
+        .panic-alert { color: #555; font-size: 12px; margin-top: -20px; margin-bottom: 25px; }
+        
+        .type-selector { margin-bottom: 20px; }
+        .type-btn {
+            background-color: #1f1f2e;
+            border: 2px solid #2a2a3d;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 20px;
+            margin: 0 5px;
+            transition: 0.2s;
+        }
+        .type-btn.active { background-color: #e50914; border-color: #e50914; }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        input, select, button {
+            padding: 12px 16px;
+            font-size: 15px;
+            border-radius: 6px;
+            border: 1px solid #2a2a35;
+            background-color: #16161d;
+            color: white;
+            outline: none;
+            transition: 0.2s;
+        }
+        input:focus, select:focus { border-color: #e50914; }
+        input { width: 220px; }
+        .tv-meta { width: 80px; }
+        select { cursor: pointer; }
+        
+        button { background-color: #e50914; border: none; font-weight: bold; cursor: pointer; }
+        button:hover { background-color: #f40b17; transform: translateY(-1px); }
+        
+        .hidden { display: none !important; }
+
+        .player-container {
+            width: 100%;
+            max-width: 950px;
+            margin: 20px auto 0 auto;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid #1f1f27;
+        }
+        iframe { width: 100%; height: 530px; border: none; display: block; }
+    </style>
+</head>
+<body>
+
+    <h1>Unblocked Media Hub</h1>
+    <div class="sub">Stream movies and series directly inside your proxy hub network.</div>
+    <div class="panic-alert">⚠️ Panic mode enabled: Press the <b>ESC key</b> at any time to instantly switch to Google Classroom.</div>
+
+    <div class="type-selector">
+        <button class="type-btn active" id="movieModeBtn" onclick="setMode('movie')">Movie Mode</button>
+        <button class="type-btn" id="tvModeBtn" onclick="setMode('tv')">TV Show Mode</button>
+    </div>
+
+    <div class="controls">
+        <input type="text" id="mediaId" placeholder="Enter IMDb ID (tt...) or TMDB ID" value="tt0111161">
+        <input type="number" id="seasonNum" class="tv-meta hidden" placeholder="Ssn" value="1" min="1">
+        <input type="number" id="episodeNum" class="tv-meta hidden" placeholder="Ep" value="1" min="1">
+        
+        <select id="serverSelect" onchange="checkAndRefresh()">
+            <option value="https://vidsrc.to">Server 1 (VidSrc To)</option>
+            <option value="https://vidlink.pro">Server 2 (VidLink Pro)</option>
+            <option value="https://vidsrc.me">Server 3 (VidSrc Me)</option>
+            <option value="https://embed.su">Server 4 (Embed Su)</option>
+        </select>
+
+        <button onclick="streamContent()">Launch Stream</button>
+    </div>
+
+    <div class="player-container">
+        <iframe id="hubPlayer" src="about:blank" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+
+    <script>
+        let currentMode = 'movie';
+
+        // PANIC BUTTON JAVASCRIPT
+        // Listens globally for the "Escape" key press
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                // Instantly redirects to an innocent site
+                window.location.replace('https://google.com');
+            }
+        });
+
+        function setMode(mode) {
+            currentMode = mode;
+            const movieBtn = document.getElementById('movieModeBtn');
+            const tvBtn = document.getElementById('tvModeBtn');
+            const seasonInput = document.getElementById('seasonNum');
+            const episodeInput = document.getElementById('episodeNum');
+            const idInput = document.getElementById('mediaId');
+
+            if (mode === 'movie') {
+                movieBtn.classList.add('active');
+                tvBtn.classList.remove('active');
+                seasonInput.classList.add('hidden');
+                episodeInput.classList.add('hidden');
+                idInput.placeholder = "Enter IMDb ID (tt...) or TMDB ID";
+                idInput.value = "tt0111161";
+            } else {
+                tvBtn.classList.add('active');
+                movieBtn.classList.remove('active');
+                seasonInput.classList.remove('hidden');
+                episodeInput.classList.remove('hidden');
+                idInput.placeholder = "Enter Show IMDb or TMDB ID";
+                idInput.value = "tt0944947";
+            }
+        }
+
+        function streamContent() {
+            const id = document.getElementById('mediaId').value.trim();
+            const serverBase = document.getElementById('serverSelect').value;
+            const iframe = document.getElementById('hubPlayer');
+            
+            if (id === "") {
+                alert("Please enter a valid content identifier code.");
+                return;
+            }
+
+            let finalUrl = "";
+
+            if (currentMode === 'movie') {
+                finalUrl = serverBase + "movie/" + id;
+            } else {
+                const season = document.getElementById('seasonNum').value || "1";
+                const episode = document.getElementById('episodeNum').value || "1";
+                finalUrl = serverBase + "tv/" + id + "/" + season + "/" + episode;
+            }
+            
+            iframe.src = finalUrl;
+        }
+
+        function checkAndRefresh() {
+            const currentSrc = document.getElementById('hubPlayer').src;
+            if (currentSrc !== "about:blank" && currentSrc !== "") {
+                streamContent();
+            }
+        }
+    </script>
+
+</body>
+</html>
