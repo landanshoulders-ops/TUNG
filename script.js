@@ -519,3 +519,37 @@ window.addEventListener('keydown', function(e) {
 
 // Run the automated configuration on startup
 initArcadeSystem();
+let isCloaked = false;
+
+function toggleCloak() {
+    const button = document.getElementById('cloakBtn');
+    
+    if (!isCloaked) {
+        // Change browser tab title
+        document.title = "Google Drive - My Drive";
+        
+        // Dynamically locate and swap the shortcut favicon link
+        let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        link.href = 'https://gstatic.com';
+        document.getElementsByTagName('head')[0].appendChild(link);
+        
+        // Update button visual feedback
+        button.innerText = "Disable Tab Disguise 🔓";
+        button.style.borderColor = "#00bcd4";
+        isCloaked = true;
+    } else {
+        // Revert back to original tab settings
+        document.title = "Unblocked Portal Dashboard";
+        
+        let link = document.querySelector("link[rel*='icon']");
+        if (link) {
+            link.href = ""; // Or add a custom logo link for your arcade hub here
+        }
+        
+        button.innerText = "Enable Tab Disguise 🕵️‍♂️";
+        button.style.borderColor = "#2a2a3d";
+        isCloaked = false;
+    }
+}
