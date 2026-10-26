@@ -861,3 +861,105 @@ window.addEventListener('keydown', function(e) {
         }
 
         function toggleAccordion(id) {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unblocked Portal Dashboard</title>
+    <style>
+        body { background-color: #0d0d12; color: #ffffff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; box-sizing: border-box; background-size: cover; background-position: center; background-attachment: fixed; }
+        h1 { font-size: 2.5rem; margin-bottom: 5px; font-weight: 700; text-align: center; }
+        h1 span { color: #e50914; }
+        .sub { color: #8c8c8c; margin-bottom: 30px; font-size: 15px; text-align: center; }
+        .cloak-panel { background-color: #16161d; border: 2px solid #2a2a35; padding: 20px; border-radius: 12px; margin-bottom: 30px; text-align: center; max-width: 400px; width: 100%; box-sizing: border-box; }
+        select, button { padding: 12px 16px; font-size: 15px; border-radius: 6px; border: 1px solid #2a2a35; background-color: #0d0d12; color: white; outline: none; font-weight: bold; cursor: pointer; margin-top: 10px; width: 100%; box-sizing: border-box; }
+        button { background-color: #e50914; border: none; margin-top: 15px; transition: 0.2s; }
+        button:hover { background-color: #f40b17; transform: translateY(-1px); }
+        .portal-grid { display: flex; gap: 20px; max-width: 800px; width: 100%; justify-content: center; flex-wrap: wrap; }
+        .portal-card { background-color: #16161d; border: 2px solid #2a2a35; border-radius: 12px; padding: 35px 25px; flex: 1; min-width: 220px; text-align: center; text-decoration: none; color: white; transition: all 0.2s ease; }
+        .portal-card:hover { transform: translateY(-4px); border-color: #e50914; }
+        .icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+        .card-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 8px; display: block; }
+        .card-desc { color: #aaabb2; font-size: 13px; display: block; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+    <h1>Unblocked Portal <span>Dashboard</span></h1>
+    <div class="sub">Select a path to launch scripts. Press ESC to panic redirect.</div>
+
+    <!-- PERSISTENT TAB CLOAK SELECTOR -->
+    <div class="cloak-panel">
+        <label for="cloakSelect" style="color: #8c8c8c; font-size: 14px;">Choose Your Disguise Profile:</label>
+        <select id="cloakSelect" onchange="applyTabCloak()">
+            <option value="default">None (Normal Tab)</option>
+            <option value="google">Google Search</option>
+            <option value="drive">Google Drive</option>
+            <option value="classroom">Google Classroom</option>
+            <option value="clever">Clever Portal</option>
+            <option value="mcgraw">McGraw Hill</option>
+            <option value="flocab">Flocabulary</option>
+            <option value="wiki">Wikipedia</option>
+        </select>
+    </div>
+
+    <div class="portal-grid">
+        <a href="movies.html" class="portal-card">
+            <span class="icon">🎬</span>
+            <span class="card-title">Cinema Hub</span>
+            <span class="card-desc">Query live public embed network database nodes for films and series.</span>
+        </a>
+        <a href="games.html" class="portal-card">
+            <span class="icon">🎮</span>
+            <span class="card-title">Arcade Hub</span>
+            <span class="card-desc">Load zero-storage footprint unblocked CDN HTML game files.</span>
+        </a>
+        <a href="settings.html" class="portal-card">
+            <span class="icon">⚙️</span>
+            <span class="card-title">Settings</span>
+            <span class="card-desc">Change wallpapers, setup custom panic buttons, and view rules.</span>
+        </a>
+    </div>
+
+    <script>
+    function applyTabCloak() {
+        const choice = document.getElementById('cloakSelect').value;
+        const presets = {
+            default: { title: "Unblocked Portal Dashboard", icon: "" },
+            google: { title: "Google", icon: "https://google.com" },
+            drive: { title: "Google Drive - My Drive", icon: "https://gstatic.com" },
+            classroom: { title: "Classes", icon: "https://gstatic.com" },
+            clever: { title: "Clever | Portal", icon: "https://clever.com" },
+            mcgraw: { title: "McGraw Hill Log In", icon: "https://mheducation.com" },
+            flocab: { title: "Flocabulary - Educational Hip-Hop", icon: "https://flocabulary.com" },
+            wiki: { title: "Wikipedia, the free encyclopedia", icon: "https://wikipedia.org" }
+        };
+        const target = presets[choice] || presets['default'];
+        document.title = target.title;
+        localStorage.setItem('savedCloakValue', choice);
+        
+        let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/x-icon'; link.rel = 'shortcut icon'; link.href = target.icon;
+        document.head.appendChild(link);
+    }
+
+    window.onload = function() {
+        if (localStorage.getItem('hubWallpaper')) {
+            document.body.style.backgroundImage = `url('${localStorage.getItem('hubWallpaper')}')`;
+        }
+        if (localStorage.getItem('savedCloakValue')) {
+            document.getElementById('cloakSelect').value = localStorage.getItem('savedCloakValue');
+            applyTabCloak();
+        }
+    }
+
+    window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const target = localStorage.getItem('hubPanicUrl') || 'https://google.com';
+            window.location.replace(target);
+        }
+    });
+    </script>
+</body>
+</html>
