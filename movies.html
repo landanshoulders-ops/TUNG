@@ -102,9 +102,9 @@
 
         .movie-card {
             background-color: #1c1c24;
-            border: 1px solid #2d2d3d;
             padding: 15px 10px;
             font-size: 14px;
+            border: 1px solid #2d2d3d;
             font-weight: 600;
             border-radius: 6px;
             cursor: pointer;
@@ -876,3 +876,211 @@
                 <p id="infoDesc" style="font-size: 13px; color: var(--text-sub); margin: 0; line-height: 1.5;">Click any image card from the dashboard rows to extract data feeds, preview layouts, and initialize media play channels.</p>
                 <div class="meta-stats">
                     <div class="stat-item"><span class="stat-label">Rating Score</span><span class="stat-val" id="statRating">N/A</span></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Player Hub</title>
+    <style>
+        :root {
+            --primary: #e50914;
+            --bg-dark: #050507;
+            --card-bg: #101015;
+            --border: #1c1c24;
+            --text: #ffffff;
+            --text-sub: #6c6c7d;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        .header-bar { width: 100%; max-width: 1200px; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); box-sizing: border-box; }
+        .brand-title { font-size: 1.6rem; font-weight: 800; margin: 0; }
+        .brand-title span { color: var(--primary); }
+        .nav-back { color: #00bcd4; font-weight: bold; text-decoration: none; font-size: 14px; z-index: 10; }
+
+        /* Netflix-style Catalog Rows */
+        .catalog-container { width: 100%; max-width: 1200px; margin-top: 25px; display: flex; flex-direction: column; gap: 25px; }
+        .category-row { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        .row-header { display: flex; align-items: center; gap: 8px; }
+        .row-title { font-size: 1.3rem; font-weight: 700; margin: 0; color: #fff; letter-spacing: -0.3px; }
+        .heart-icon { color: var(--primary); }
+        
+        .media-scroller { display: flex; gap: 16px; overflow-x: auto; padding: 5px 2px; width: 100%; box-sizing: border-box; }
+        .media-scroller::-webkit-scrollbar { height: 6px; }
+        .media-scroller::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        .media-scroller::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        .movie-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px;
+            min-width: 150px;
+            max-width: 150px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-sizing: border-box;
+        }
+        .movie-card:hover { transform: scale(1.05); border-color: var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.6); }
+        .poster-image { width: 100%; aspect-ratio: 2 / 2.9; border-radius: 6px; background-size: cover; background-position: center; }
+        .movie-card p { margin: 10px 0 2px 0; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #eee; }
+
+        /* THEATER OVERLAY STYLE MATCHING YOUR MONITOR IMAGE */
+        .theater-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            z-index: 99999;
+            display: none;
+            flex-direction: column;
+        }
+        .theater-overlay iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            flex-grow: 1;
+        }
+        
+        /* Immersive Controls Strip at the very bottom */
+        .theater-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95) 40%);
+            padding: 30px 40px 25px 40px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100000;
+            pointer-events: none;
+        }
+        .theater-controls * { pointer-events: auto; }
+        
+        .active-title { font-size: 1.4rem; font-weight: bold; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin: 0; }
+        .active-meta { font-size: 13px; color: #b3b3b3; margin-top: 4px; display: block; }
+        
+        .control-buttons-wrapper { display: flex; gap: 12px; align-items: center; }
+        select, button {
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background-color: rgba(20, 20, 25, 0.85);
+            backdrop-filter: blur(10px);
+            color: white;
+            outline: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        select:hover, button:hover { border-color: var(--primary); background-color: #14141d; }
+        button.exit-btn { background-color: var(--primary); border: none; }
+        button.exit-btn:hover { background-color: #ff1420; }
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <h2 class="brand-title">Cinema<span>Stream</span></h2>
+        <a href="index.html" class="nav-back">🎮 Open Arcade Terminal</a>
+    </div>
+
+    <div class="catalog-container">
+        <!-- ROW 1: FAVORITE SHOWS -->
+        <div class="category-row">
+            <div class="row-header"><span class="heart-icon">❤️</span><h3 class="row-title">Favorite shows</h3></div>
+            <div class="media-scroller" id="favShowsRow"></div>
+        </div>
+
+        <!-- ROW 2: MOVIES -->
+        <div class="category-row">
+            <div class="row-header"><h3 class="row-title">Movies</h3></div>
+            <div class="media-scroller" id="moviesRow"></div>
+        </div>
+
+        <!-- ROW 3: FAVORITE MOVIES -->
+        <div class="category-row">
+            <div class="row-header"><span class="heart-icon">❤️</span><h3 class="row-title">Favorite movies</h3></div>
+            <div class="media-scroller" id="favMoviesRow"></div>
+        </div>
+    </div>
+
+    <!-- IMMERSIVE CINEMATIC OVERLAY -->
+    <div class="theater-overlay" id="videoOverlay">
+        <iframe id="theaterFrame" src="about:blank" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        
+        <div class="theater-controls">
+            <div>
+                <h3 class="active-title" id="playerMovieTitle">Loading Stream...</h3>
+                <span class="active-meta" id="playerMovieMeta">1080p Stream Engine Vector</span>
+            </div>
+            
+            <div class="control-buttons-wrapper">
+                <select id="serverRouteSelect" onchange="swapActiveServerRoute()">
+                    <option value="https://vidsrc.to">Server 1 (VidSrc To)</option>
+                    <option value="https://vidlink.pro">Server 2 (VidLink Pro)</option>
+                    <option value="https://embed.su">Server 3 (Embed Su)</option>
+                </select>
+                <button class="exit-btn" onclick="closeTheaterOverlay()">Close Player ✖</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cachedActiveMediaId = "";
+        let cachedActiveMediaType = "movie";
+
+        const mediaDatabase = [
+            // Row 1: Favorite Shows
+            { id: "tt19734104", title: "Exploding Kittens", year: "2024", info: "9 Episodes", img: "https://unsplash.com", type: "tv", row: "favShows" },
+            { id: "tt10376812", title: "Sweet Tooth", year: "2021", info: "3 Seasons", img: "https://unsplash.com", type: "tv", row: "favShows" },
+            
+            // Row 2: Movies
+            { id: "tt2395695", title: "Greenland", year: "2020", info: "119 min", img: "https://unsplash.com", type: "movie", row: "movies" },
+            { id: "tt28087816", title: "Find Me Falling", year: "2024", info: "93 min", img: "https://unsplash.com", type: "movie", row: "movies" },
+            { id: "tt4411604", title: "Ford v Ferrari", year: "2019", info: "152 min", img: "https://unsplash.com", type: "movie", row: "movies" },
+            
+            // Row 3: Favorite Movies (With Moana 2)
+            { id: "tt22416706", title: "Moana 2", year: "2024", info: "100 min", img: "https://unsplash.com", type: "movie", row: "favMovies" },
+            { id: "tt0119116", title: "The Fifth Element", year: "1997", info: "126 min", img: "https://unsplash.com", type: "movie", row: "favMovies" },
+            { id: "tt0109830", title: "Forrest Gump", year: "1994", info: "142 min", img: "https://unsplash.com", type: "movie", row: "favMovies" }
+        ];
+
+        function buildMediaDashboardGrid() {
+            mediaDatabase.forEach(item => {
+                let targetRowId = "";
+                if (item.row === "favShows") targetRowId = "favShowsRow";
+                else if (item.row === "movies") targetRowId = "moviesRow";
+                else if (item.row === "favMovies") targetRowId = "favMoviesRow";
+                
+                const container = document.getElementById(targetRowId);
+                if (container) {
+                    const card = document.createElement('div');
+                    card.className = 'movie-card';
+                    card.onclick = () => openTheaterOverlay(item);
+                    card.innerHTML = `<div class="poster-image" style="background-image:url('${item.img}')"></div><p>${item.title}</p>`;
+                    container.appendChild(card);
+                }
+            });
+        }
+
+        function openTheaterOverlay(item) {
+            cachedActiveMediaId = item.id;
