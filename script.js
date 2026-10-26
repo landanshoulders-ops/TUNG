@@ -445,3 +445,77 @@ function launchUnblocked() {
 </body>
 </html>
 { name: "Your Game Title Here", url: "https://github.io" },
+// This dynamic script automatically pulls a massive index list from a public CDN
+const publicDatabaseUrl = "https://githubusercontent.com";
+let gamesDatabase = [];
+
+async function initArcadeSystem() {
+    try {
+        // Fetch thousands of games all at once from the public database repo
+        const response = await fetch(publicDatabaseUrl);
+        const data = await response.json();
+        
+        // Convert the fetched object data into a clean, searchable array layout
+        gamesDatabase = Object.keys(data).map(key => ({
+            name: data[key].name,
+            url: `https://github.io{key}/` // Formats the path to the game files
+        }));
+
+        buildArcadeGrid();
+    } catch (error) {
+        console.error("Failed to fetch public games list, loading local backups...", error);
+        // Fallback backup array if the external link ever drops offline
+        gamesDatabase = [
+            { name: "Retro Bowl", url: "https://googleusercontent.com" },
+            { name: "1v1.LOL", url: "https://github.io" },
+            { name: "Slope", url: "https://github.io" }
+        ];
+        buildArcadeGrid();
+    }
+}
+
+function buildArcadeGrid() {
+    const grid = document.getElementById('gameGrid');
+    grid.innerHTML = ''; 
+
+    // Sort thousands of games alphabetically in milliseconds
+    gamesDatabase.sort((a, b) => a.name.localeCompare(b.name)); 
+
+    gamesDatabase.forEach(game => {
+        const element = document.createElement('div');
+        element.className = 'game-card';
+        element.textContent = game.name;
+        element.setAttribute('onclick', `launchGame('${game.url}', this)`);
+        grid.appendChild(element);
+    });
+}
+
+function filterGames() {
+    const query = document.getElementById('searchBar').value.toLowerCase();
+    const cards = document.getElementsByClassName('game-card');
+
+    for (let i = 0; i < cards.length; i++) {
+        const title = cards[i].textContent.toLowerCase();
+        cards[i].style.display = title.includes(query) ? "block" : "none";
+    }
+}
+
+function launchGame(url, cardElement) {
+    document.getElementById('gameViewport').src = url;
+    const activeCards = document.querySelectorAll('.game-card');
+    activeCards.forEach(c => c.classList.remove('active'));
+    cardElement.classList.add('active');
+}
+
+function toggleFullscreen() {
+    const viewport = document.getElementById('gameViewport');
+    if (viewport.requestFullscreen) { viewport.requestFullscreen(); }
+    else if (viewport.webkitRequestFullscreen) { viewport.webkitRequestFullscreen(); }
+}
+
+window.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { window.location.replace('https://google.com'); }
+});
+
+// Run the automated configuration on startup
+initArcadeSystem();
