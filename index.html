@@ -615,3 +615,249 @@ window.addEventListener('keydown', function(e) {
             currentInterfaceMode = mode;
             document.getElementById('btnMovie').classList.toggle('active', mode === 'movie');
             document.getElementById('btnTv').classList.toggle('active', mode === 'tv');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive - Settings</title>
+    <link rel="icon" type="image/x-icon" href="https://gstatic.com">
+    <style>
+        :root {
+            --primary: #9c27b0;
+            --bg-dark: #08080a;
+            --card-bg: #14141d;
+            --border: #232330;
+            --text: #ffffff;
+            --text-sub: #7a7a8c;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .header-bar {
+            width: 100%;
+            max-width: 1000px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            border-bottom: 1px solid var(--border);
+            background: rgba(8, 8, 10, 0.8);
+            backdrop-filter: blur(8px);
+        }
+        .brand-title { font-size: 1.6rem; font-weight: 800; margin: 0; color: var(--text); }
+        .brand-title span { color: var(--primary); }
+        .nav-back { color: #00bcd4; font-weight: bold; text-decoration: none; font-size: 14px; }
+        .nav-back:hover { text-decoration: underline; }
+
+        .main-container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .settings-card {
+            background-color: rgba(20, 20, 29, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            box-sizing: border-box;
+        }
+        .section-title { font-size: 1.3rem; font-weight: 700; margin-top: 0; margin-bottom: 20px; color: var(--text); display: flex; align-items: center; gap: 10px; }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .setting-group { margin-bottom: 15px; }
+        .setting-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-sub); font-size: 14px; }
+        
+        select, input {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 6px;
+            outline: none;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        select:focus, input:focus { border-color: var(--primary); }
+        
+        .wallpaper-presets {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .wp-btn {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 8px 14px;
+            font-size: 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .wp-btn:hover { border-color: var(--primary); }
+
+        .save-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 15px;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .save-btn:hover { background-color: #ba2cc3; transform: translateY(-1px); }
+
+        /* Accordion Terms System Panel styles */
+        .terms-box {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background-color: var(--bg-dark);
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .terms-header {
+            padding: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: rgba(35, 35, 48, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        .terms-body {
+            padding: 15px;
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.6;
+            border-top: 1px solid var(--border);
+            background-color: #0b0b10;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <h2 class="brand-title">Control<span>Console</span></h2>
+        <a href="index.html" class="nav-back">← Back to Dashboard Portal</a>
+    </div>
+
+    <div class="main-container">
+        
+        <!-- Core System Parameters Customizer Block -->
+        <div class="settings-card">
+            <h3 class="section-title">⚙️ Environment System Variables</h3>
+            
+            <div class="grid-layout">
+                <div class="setting-group">
+                    <label for="settingCloak">Global Default Tab Cloak Mask</label>
+                    <select id="settingCloak">
+                        <option value="default">None (Normal Tab)</option>
+                        <option value="google">Google Search</option>
+                        <option value="drive">Google Drive</option>
+                        <option value="classroom">Google Classroom</option>
+                        <option value="clever">Clever Portal</option>
+                        <option value="mcgraw">McGraw Hill</option>
+                        <option value="flocab">Flocabulary</option>
+                        <option value="wiki">Wikipedia</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label for="panicUrl">Emergency Panic Redirect Target</label>
+                    <input type="text" id="panicUrl" value="https://google.com" placeholder="e.g., https://canvas.com">
+                </div>
+            </div>
+
+            <!-- Custom Interactive Wallpaper Customizer Matrix Panel -->
+            <div class="setting-group" style="margin-top: 15px;">
+                <label for="customBgUrl">Live Canvas Desktop Wallpaper URL</label>
+                <input type="text" id="customBgUrl" placeholder="Paste image address link (e.g., https://example.com)">
+                <div class="wallpaper-presets">
+                    <button class="wp-btn" onclick="applyPresetBg('')">Solid Slate Dark</button>
+                    <button class="wp-btn" onclick="applyPresetBg('https://unsplash.com')">Cyber Gradient</button>
+                    <button class="wp-btn" onclick="applyPresetBg('https://unsplash.com')">Abstract Wave</button>
+                </div>
+            </div>
+
+            <button class="save-btn" onclick="saveConsoleConfigurations()">Save Operational Variable Matrices 💾</button>
+        </div>
+
+        <!-- System Platform Legal Regulations Context Accordions -->
+        <div class="settings-card">
+            <h3 class="section-title">⚖️ Compliance Guidelines & Legal Terms</h3>
+            
+            <div class="terms-box">
+                <div class="terms-header" onclick="toggleAccordion('terms1')">1. Acceptable Sandbox Terms of Service <span>▼</span></div>
+                <div class="terms-body hidden" id="terms1">
+                    This unblocked portal is a client-side execution test sandbox. By deploying and launching scripts from this node cluster, users understand that all tracking matrices, video stream data pipes, and game client links originate from external distributed CDNs and open-source public backends. You accept responsibilities for data usage constraints on private networks.
+                </div>
+            </div>
+
+            <div class="terms-box">
+                <div class="terms-header" onclick="toggleAccordion('terms2')">2. Zero-Storage Architecture Disclosures <span>▼</span></div>
+                <div class="terms-body hidden" id="terms2">
+                    This website preserves a zero-storage server infrastructure. No actual video file copies, movie binaries, database arrays, or game files are downloaded or hosted locally within our Vercel architecture project block. The framework uses sandbox runtime containers to display distributed layout interfaces.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function saveConsoleConfigurations() {
+            const cloak = document.getElementById('settingCloak').value;
+            const panic = document.getElementById('panicUrl').value.trim();
+            const bgUrl = document.getElementById('customBgUrl').value.trim();
+
+            localStorage.setItem('hubCloak', cloak);
+            localStorage.setItem('hubPanicUrl', panic);
+            localStorage.setItem('hubWallpaper', bgUrl);
+
+            // Apply wallpaper to page instantly on save
+            if (bgUrl) {
+                document.body.style.backgroundImage = `url('${bgUrl}')`;
+            } else {
+                document.body.style.backgroundImage = 'none';
+            }
+
+            alert("System variable matrices updated and cached! Setting changes will dynamically apply across active terminal panels.");
+        }
+
+        function applyPresetBg(url) {
+            document.getElementById('customBgUrl').value = url;
+        }
+
+        function toggleAccordion(id) {
