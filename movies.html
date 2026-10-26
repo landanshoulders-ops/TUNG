@@ -704,3 +704,175 @@
         // CATEGORIZED GROUP MEDIA MOVIE FILE DATABASE
         const popularMovies = [
             { id: "tt0111161", title: "Shawshank Redemption", rating: "9.3", time: "142 min", year: "1994", img: "https://unsplash.com", type: "popular" },
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Portal</title>
+    <style>
+        :root {
+            --primary: #e50914;
+            --bg-dark: #050507;
+            --card-bg: #101015;
+            --border: #1c1c24;
+            --text: #ffffff;
+            --text-sub: #6c6c7d;
+            --success: #4caf50;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .header-bar { width: 100%; max-width: 1200px; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); box-sizing: border-box; }
+        .brand-title { font-size: 1.6rem; font-weight: 800; margin: 0; }
+        .brand-title span { color: var(--primary); }
+        .nav-back { color: #00bcd4; font-weight: bold; text-decoration: none; font-size: 14px; }
+
+        .app-layout { display: grid; grid-template-columns: 1fr; gap: 25px; width: 100%; max-width: 1200px; margin-top: 20px; }
+        @media(min-width: 950px) { .app-layout { grid-template-columns: 3fr 1.1fr; } }
+
+        /* Left side stream layout components */
+        .video-panel { display: flex; flex-direction: column; gap: 20px; }
+        .player-wrapper { background-color: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 16 / 9; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        iframe { width: 100%; height: 100%; border: none; display: block; }
+
+        .controls-panel { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .row-group { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+        
+        .quality-tabs { display: flex; gap: 6px; background: #000; padding: 4px; border-radius: 6px; border: 1px solid var(--border); }
+        .q-btn { background: none; border: none; padding: 6px 12px; font-size: 12px; font-weight: bold; color: var(--text-sub); cursor: pointer; border-radius: 4px; }
+        .q-btn.active { background: var(--primary); color: white; }
+
+        .status-badge { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 20px; background: #000; border: 1px solid var(--border); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background-color: var(--success); }
+        .status-dot.offline { background-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
+
+        select, button { padding: 10px 16px; font-size: 14px; border-radius: 6px; border: 1px solid var(--border); background-color: var(--bg-dark); color: white; outline: none; font-weight: bold; cursor: pointer; }
+        button.play-btn { background-color: var(--primary); border: none; }
+
+        /* Media grid categories matching your image layout structure */
+        .category-row { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; width: 100%; }
+        .row-header { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .row-title { font-size: 1.2rem; font-weight: 700; margin: 0; color: #fff; letter-spacing: -0.3px; }
+        .heart-icon { color: var(--primary); font-size: 1.1rem; }
+        .arrow-indicator { color: var(--text-sub); font-size: 0.9rem; margin-left: auto; padding-right: 10px; }
+
+        .media-scroller { display: flex; gap: 14px; overflow-x: auto; padding: 5px 2px; box-sizing: border-box; width: 100%; }
+        .media-scroller::-webkit-scrollbar { height: 6px; }
+        .media-scroller::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        .media-scroller::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        .movie-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px;
+            min-width: 140px;
+            max-width: 140px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-sizing: border-box;
+        }
+        .movie-card:hover { transform: scale(1.04); border-color: var(--primary); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+        .movie-card.active { border-color: var(--primary); background: rgba(229,9,20,0.06); }
+        
+        .poster-image { width: 100%; aspect-ratio: 2 / 2.9; border-radius: 4px; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.03); }
+        .movie-card p { margin: 8px 0 2px 0; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #eee; }
+
+        /* Right side lookup Sidebar styles */
+        .info-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .info-card { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-sizing: border-box; position: sticky; top: 20px; }
+        .poster-frame { width: 100%; aspect-ratio: 2/3; background-color: #000; border-radius: 8px; margin-bottom: 15px; background-size: cover; background-position: center; border: 1px solid var(--border); }
+        .meta-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; font-size: 13px; }
+        .stat-item { background: var(--bg-dark); padding: 8px; border-radius: 6px; border: 1px solid var(--border); }
+        .stat-label { font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 2px; }
+        .stat-val { font-weight: bold; color: #fff; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <h2 class="brand-title">Cinema<span>Stream</span></h2>
+        <a href="index.html" class="nav-back">🎮 Open Arcade Terminal</a>
+    </div>
+
+    <div class="app-layout">
+        
+        <!-- Left Workspace Frame Panel -->
+        <div class="video-panel">
+            <div class="player-wrapper">
+                <iframe id="mediaPlayer" src="about:blank" allowfullscreen></iframe>
+            </div>
+
+            <div class="controls-panel">
+                <div class="row-group" style="justify-content: space-between;">
+                    <div class="quality-tabs">
+                        <button class="q-btn" onclick="setQuality('Auto', this)">Auto</button>
+                        <button class="q-btn active" onclick="setQuality('1080p', this)">1080p</button>
+                        <button class="q-btn" onclick="setQuality('720p', this)">720p</button>
+                    </div>
+                    <div class="status-badge">
+                        <div class="status-dot" id="serverDot"></div>
+                        <span id="serverStatusText">Server Pipeline: Active</span>
+                    </div>
+                </div>
+                <div class="row-group">
+                    <select id="selectServer" onchange="testServerHealth()">
+                        <option value="https://vidsrc.to">Server 1 (VidSrc To)</option>
+                        <option value="https://vidlink.pro">Server 2 (VidLink Pro)</option>
+                        <option value="https://embed.su">Server 3 (Embed Su)</option>
+                    </select>
+                    <button class="play-btn" onclick="startPlayback()">Stream Selection 🎬</button>
+                </div>
+            </div>
+
+            <!-- ROW 1: FAVORITE SHOWS -->
+            <div class="category-row">
+                <div class="row-header">
+                    <span class="heart-icon">❤️</span>
+                    <h3 class="row-title">Favorite shows</h3>
+                    <span class="arrow-indicator">❯</span>
+                </div>
+                <div class="media-scroller" id="favShowsRow"></div>
+            </div>
+
+            <!-- ROW 2: MOVIES -->
+            <div class="category-row">
+                <div class="row-header">
+                    <h3 class="row-title">Movies</h3>
+                    <span class="arrow-indicator">❯</span>
+                </div>
+                <div class="media-scroller" id="moviesRow"></div>
+            </div>
+
+            <!-- ROW 3: FAVORITE MOVIES -->
+            <div class="category-row">
+                <div class="row-header">
+                    <span class="heart-icon">❤️</span>
+                    <h3 class="row-title">Favorite movies</h3>
+                    <span class="arrow-indicator">❯</span>
+                </div>
+                <div class="media-scroller" id="favMoviesRow"></div>
+            </div>
+        </div>
+
+        <!-- Right Side Media Stats Inspection Display Sidebar -->
+        <div class="info-sidebar">
+            <div class="info-card">
+                <div class="poster-frame" id="infoPoster" style="background-image: url('https://unsplash.com');"></div>
+                <h3 id="infoTitle" style="margin: 0 0 10px 0;">Select Titles</h3>
+                <p id="infoDesc" style="font-size: 13px; color: var(--text-sub); margin: 0; line-height: 1.5;">Click any image card from the dashboard rows to extract data feeds, preview layouts, and initialize media play channels.</p>
+                <div class="meta-stats">
+                    <div class="stat-item"><span class="stat-label">Rating Score</span><span class="stat-val" id="statRating">N/A</span></div>
