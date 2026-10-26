@@ -596,3 +596,26 @@ const gamesDatabase = [
     { name: "Tunnel Rush", url: "https://github.io" },
     { name: "Geometry Dash", url: "https://github.io" }
 ];
+        const mediaDatabase = [
+            // Row 1: Favorite Shows
+            { id: "tt19734104", title: "Exploding Kittens", year: "2024", info: "9 Episodes", img: "https://media-amazon.com", type: "tv", row: "favShows" },
+            { id: "tt10376812", title: "Sweet Tooth", year: "2021", info: "3 Seasons", img: "https://media-amazon.com", type: "tv", row: "favShows" },
+            { id: "tt11196014", title: "Only Murders in the Building", year: "2021", info: "4 Seasons", img: "https://media-amazon.com", type: "tv", row: "favShows" },
+            { id: "tt13443470", title: "Wednesday", year: "2022", info: "1 Season", img: "https://media-amazon.com", type: "tv", row: "favShows" },
+            { id: "tt0111161", title: "Friends", year: "1994", info: "10 Seasons", img: "https://media-amazon.com", type: "tv", row: "favShows" },
+            
+            // Row 2: Movies
+            { id: "tt2395695", title: "Greenland", year: "2020", info: "119 min", img: "https://media-amazon.com", type: "movie", row: "movies" },
+            { id: "tt28087816", title: "Find Me Falling", year: "2024", info: "93 min", img: "https://media-amazon.com", type: "movie", row: "movies" },
+            { id: "tt4411604", title: "Ford v Ferrari", year: "2019", info: "152 min", img: "https://media-amazon.com", type: "movie", row: "movies" },
+            { id: "tt16366836", title: "Sonic the Hedgehog 3", year: "2024", info: "110 min", img: "https://media-amazon.com", type: "movie", row: "movies" },
+            { id: "tt29605705", title: "The Union", year: "2024", info: "107 min", img: "https://media-amazon.com", type: "movie", row: "movies" },
+            
+            // Row 3: Favorite Movies
+            { id: "tt22416706", title: "Moana 2", year: "2024", info: "100 min", img: "https://media-amazon.com", type: "movie", row: "favMovies" },
+            { id: "tt1630029", title: "Avatar 3: Fire and Ash", year: "2025", info: "Coming Soon", img: "https://media-amazon.com", type: "movie", row: "favMovies" },
+            { id: "tt634649", title: "Spider-Man: No Way Home", year: "2021", info: "148 min", img: "https://media-amazon.com", type: "movie", row: "favMovies" },
+            { id: "tt0119116", title: "The Fifth Element", year: "1997", info: "126 min", img: "https://media-amazon.com", type: "movie", row: "favMovies" },
+            { id: "tt0109830", title: "Forrest Gump", year: "1994", info: "142 min", img: "https://media-amazon.com", type: "movie", row: "favMovies" }
+        ];
+{ id: "IMDb_CODE", title: "Movie Name", year: "Year", info: "Length", img: "Poster_Image_URL", type: "movie", row: "movies" },
