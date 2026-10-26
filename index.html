@@ -94,3 +94,54 @@
 <button id="cloakBtn" onclick="toggleCloak()" style="background-color: #1f1f2e; border: 2px solid #2a2a3d; color: white; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 20px; margin-bottom: 25px; transition: 0.2s;">
     Enable Tab Disguise 🕵️‍♂️
 </button>
+<!-- Insert this dropdown selection menu right onto your dashboard page layout -->
+<div style="margin-bottom: 25px;">
+    <label for="cloakSelect" style="color: #8c8c8c; font-size: 14px; margin-right: 10px;">Select Tab Mask:</label>
+    <select id="cloakSelect" onchange="applyTabCloak()" style="background-color: #1f1f2e; border: 2px solid #2a2a3d; color: white; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer;">
+        <option value="default">None (Normal Tab)</option>
+        <option value="google">Google Search</option>
+        <option value="drive">Google Drive</option>
+        <option value="classroom">Google Classroom</option>
+        <option value="clever">Clever Portal</option>
+        <option value="mcgraw">McGraw Hill</option>
+        <option value="flocab">Flocabulary</option>
+        <option value="wiki">Wikipedia</option>
+    </select>
+</div>
+
+<script>
+function applyTabCloak() {
+    const choice = document.getElementById('cloakSelect').value;
+    
+    // Database registry mapping titles and asset icon pathways
+    const presets = {
+        default: { title: "Unblocked Portal Dashboard", icon: "" },
+        google: { title: "Google", icon: "https://google.com" },
+        drive: { title: "Google Drive - My Drive", icon: "https://gstatic.com" },
+        classroom: { title: "Classes", icon: "https://gstatic.com" },
+        clever: { title: "Clever | Portal", icon: "https://clever.com" },
+        mcgraw: { title: "McGraw Hill Log In", icon: "https://mheducation.com" },
+        flocab: { title: "Flocabulary - Educational Hip-Hop", icon: "https://flocabulary.com" },
+        wiki: { title: "Wikipedia, the free encyclopedia", icon: "https://wikipedia.org" }
+    };
+
+    const target = presets[choice] || presets['default'];
+
+    // Overwrite runtime browser meta context
+    document.title = target.title;
+    
+    // Find or craft header link references
+    let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    link.type = 'image/x-icon';
+    link.rel = 'shortcut icon';
+    link.href = target.icon;
+    document.getElementsByTagName('head')[0].appendChild(link);
+}
+
+// Global Panic Key backup option (ESC key)
+window.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        window.location.replace('https://google.com');
+    }
+});
+</script>
