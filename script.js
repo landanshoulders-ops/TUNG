@@ -619,3 +619,46 @@ const gamesDatabase = [
             { id: "tt0109830", title: "Forrest Gump", year: "1994", info: "142 min", img: "https://media-amazon.com", type: "movie", row: "favMovies" }
         ];
 { id: "IMDb_CODE", title: "Movie Name", year: "Year", info: "Length", img: "Poster_Image_URL", type: "movie", row: "movies" },
+            // Row 4: Top 10 Rank Chart Registry Blocks
+            { id: "tt22416706", title: "Moana 2", year: "2024", info: "100 min", img: "https://media-amazon.com", type: "movie", row: "topRanked" },
+            { id: "tt16366836", title: "Sonic the Hedgehog 3", year: "2024", info: "110 min", img: "https://media-amazon.com", type: "movie", row: "topRanked" },
+            { id: "tt4411604", title: "Ford v Ferrari", year: "2019", info: "152 min", img: "https://media-amazon.com", type: "movie", row: "topRanked" },
+            { id: "tt28087816", title: "Find Me Falling", year: "2024", info: "93 min", img: "https://media-amazon.com", type: "movie", row: "topRanked" },
+            { id: "tt2395695", title: "Greenland", year: "2020", info: "119 min", img: "https://media-amazon.com", type: "movie", row: "topRanked" }
+        function buildMediaDashboardGrid() {
+            let rankCounter = 1; // Initializer tracker counter for the rank list row
+
+            mediaDatabase.forEach(item => {
+                let targetRowId = "";
+                if (item.row === "favShows") targetRowId = "favShowsRow";
+                else if (item.row === "movies") targetRowId = "moviesRow";
+                else if (item.row === "favMovies") targetRowId = "favMoviesRow";
+                else if (item.row === "topRanked") targetRowId = "topRankedRow";
+                
+                const container = document.getElementById(targetRowId);
+                if (container) {
+                    const card = document.createElement('div');
+                    
+                    // Branching Logic check: Format differently if it maps to our top 10 row
+                    if (item.row === "topRanked") {
+                        card.className = 'rank-card-frame';
+                        card.setAttribute('data-rank', rankCounter); // Injects rank number index variable attributes
+                        card.onclick = () => openTheaterOverlay(item);
+                        card.innerHTML = `<div class="rank-img-layer" style="background-image:url('${item.img}')"></div>`;
+                        rankCounter++; // Step chart up sequentially (1, 2, 3...)
+                    } else {
+                        // Standard Netflix Card Rendering Pipeline
+                        card.className = 'poster-card-frame';
+                        card.onclick = () => openTheaterOverlay(item);
+                        card.innerHTML = `
+                            <div class="poster-image-render" style="background-image:url('${item.img}')"></div>
+                            <div class="card-title-shield">
+                                <h4 class="shield-text-title">${item.title}</h4>
+                                <span class="shield-text-year">${item.year} • ${item.info}</span>
+                            </div>
+                        `;
+                    }
+                    container.appendChild(card);
+                }
+            });
+        }
